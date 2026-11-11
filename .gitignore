@@ -5,7 +5,7 @@ out/
 target/
 
 # Runtime data (working copy, index snapshot, history)
-data/
+/data/
 
 # IDE / OS
 .idea/
