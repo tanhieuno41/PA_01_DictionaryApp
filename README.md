@@ -25,7 +25,7 @@ Ngoài 10 chức năng chính còn có dashboard thống kê, menu bar, sidebar,
 
 ### Trong bộ nhớ
 
-- `LinkedHashMap<Long, Slang>` giữ toàn bộ mục từ theo thứ tự chèn; mỗi mục từ có id duy nhất nên **hỗ trợ nhiều mục từ trùng tên** (dữ liệu gốc có 17 từ trùng).
+- `LinkedHashMap<Long, Slang>` giữ toàn bộ mục từ theo thứ tự chèn; mỗi mục từ có id duy nhất nên **hỗ trợ nhiều mục từ trùng tên** (dữ liệu gốc có nhiều bản ghi trùng).
 - `HashMap<String, List<Slang>>` ánh xạ **slang word đã chuẩn hoá → danh sách mục từ**. Tra cứu chính xác trung bình **O(1)**.
 - `TrigramIndex`: chỉ mục nghịch đảo `trigram → posting list` trên phần định nghĩa đã chuẩn hoá. Truy vấn tìm theo định nghĩa:
   - từ khoá < 3 ký tự: quét tuần tự (rất nhanh với dữ liệu trong bộ nhớ);
