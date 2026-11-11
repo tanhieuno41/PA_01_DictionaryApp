@@ -1,4 +1,8 @@
-﻿* d1b918a 2026-11-11 16:49 docs: add black-and-white project report and grayscale screenshots
+﻿* 07697ae 2026-11-11 17:50 docs: refresh report and screenshots for cleaned dataset
+* b8dc3ae 2026-11-11 17:50 feat: use canonical cleaned data and update reset flow
+* 85167af 2026-11-11 17:50 data: add verified clean slang dataset and line-level audit
+* e181ee1 2026-11-11 16:50 docs: refresh local commit history evidence
+* d1b918a 2026-11-11 16:49 docs: add black-and-white project report and grayscale screenshots
 * ea0c05e 2026-11-11 16:49 feat: switch the entire UI to a strict black-and-white theme
 * f9c3ffb 2026-11-11 11:17 build: auto-build jar when launching from a clean checkout
 * 348f61b 2026-11-11 11:15 docs: note real commit-date limitation
