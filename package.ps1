@@ -34,7 +34,7 @@ try {
     }
 
     # Ghi lại lịch sử commit thực tế (ảnh chụp GitHub vẫn cần sinh viên bổ sung).
-    if (Test-Path ".git") {
+    if ((Test-Path ".git") -and (Get-Command git -ErrorAction SilentlyContinue)) {
         & git log --oneline --graph --decorate | Out-File -Encoding utf8 (Join-Path $stage "report\git-log.txt")
         & git rev-list --count HEAD | ForEach-Object { "Tổng số commit: $_" } |
             Out-File -Encoding utf8 -Append (Join-Path $stage "report\git-log.txt")
