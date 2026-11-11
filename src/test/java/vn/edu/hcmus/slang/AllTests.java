@@ -54,6 +54,7 @@ public final class AllTests {
 
         originalEntries = DictionaryStore.parseTextFile(ROOT);
         fullDictionary = SlangDictionary.fromEntries(originalEntries);
+        DictionaryStore.setWarningSink(message -> { });
 
         test("1. Parser & dataset", AllTests::testDataset);
         test("2. Search by slang word", AllTests::testSearchByWord);

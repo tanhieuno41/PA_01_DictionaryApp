@@ -95,15 +95,15 @@
 
 9. Performance with 100,000 slang words
   · Đang tạo 100.000 slang word...
-    generate = 345 ms
-    build dictionary + trigram index = 289 ms
+    generate = 303 ms
+    build dictionary + trigram index = 319 ms
   [PASS] 100k: nạp đủ 100.000 mục
   [PASS] 100k: xây chỉ mục < 5s
     200 exact searches = 0 ms (avg 0.0 ms)
   [PASS] 100k: 200 tra cứu chính xác < 1s
     def 'money' = 600 kết quả / 1 ms
   [PASS] 100k: definition search 'money' < 1s
-    def 'go' = 5161 kết quả / 20 ms
+    def 'go' = 5161 kết quả / 38 ms
   [PASS] 100k: definition search 'go' < 1s
     def 'the' = 7545 kết quả / 7 ms
   [PASS] 100k: definition search 'the' < 1s
@@ -111,12 +111,12 @@
   [PASS] 100k: definition search 'has money' < 1s
     def 'zzzznotfound' = 0 kết quả / 0 ms
   [PASS] 100k: definition search 'zzzznotfound' < 1s
-    save text + snapshot = 395 ms, snapshot=14 MB
+    save text + snapshot = 454 ms, snapshot=14 MB
   [PASS] 100k: lưu snapshot thành công
-    load snapshot = 560 ms (loadedIndex=true)
+    load snapshot = 512 ms (loadedIndex=true)
   [PASS] 100k: lần chạy sau nạp chỉ mục sẵn, không rebuild
   [PASS] 100k: nạp snapshot < 1.5s
-    def 'money' sau khi nạp = 600 kết quả / 1 ms
+    def 'money' sau khi nạp = 600 kết quả / 0 ms
   [PASS] 100k: tìm kiếm sau khi nạp < 1s
   [PASS] 100k: kết quả sau nạp khớp
 ------------------------------------------------------------

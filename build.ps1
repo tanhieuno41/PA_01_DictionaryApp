@@ -70,8 +70,13 @@ try {
             if ($LASTEXITCODE -ne 0) { throw "javac (tests) thất bại" }
 
             Write-Host "==> Running tests" -ForegroundColor Cyan
-            & java "-Dfile.encoding=UTF-8" -Xmx1g -cp "build\classes;build\test-classes" vn.edu.hcmus.slang.AllTests
-            if ($LASTEXITCODE -ne 0) { throw "Kiểm thử thất bại" }
+            $testErrorLog = "build\test-stderr.txt"
+            & java "-Dfile.encoding=UTF-8" -Xmx1g -cp "build\classes;build\test-classes" vn.edu.hcmus.slang.AllTests 2> $testErrorLog
+            $testExitCode = $LASTEXITCODE
+            if ($testExitCode -ne 0) {
+                if (Test-Path $testErrorLog) { Get-Content $testErrorLog }
+                throw "Kiểm thử thất bại"
+            }
         }
     }
 

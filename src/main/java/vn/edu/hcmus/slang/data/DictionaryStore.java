@@ -24,6 +24,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 import java.util.zip.CRC32;
 
 /**
@@ -39,6 +41,8 @@ public final class DictionaryStore {
     private static final int SNAPSHOT_VERSION = 1;
     private static final int MAX_ENTRIES = 5_000_000;
     private static final int MAX_STRING_BYTES = 16 * 1024 * 1024;
+    private static final AtomicReference<Consumer<String>> WARNING_SINK =
+            new AtomicReference<>(System.err::println);
 
     private final Path projectDir;
     private final Path originalFile;
@@ -53,6 +57,15 @@ public final class DictionaryStore {
         this.dataDir = this.projectDir.resolve("data");
         this.workingFile = dataDir.resolve("slang_modified.txt");
         this.snapshotFile = dataDir.resolve("dictionary.bin");
+    }
+
+    /** Cho phép test harness thay đổi nơi ghi cảnh báo (ví dụ: nuôi im lặng). */
+    public static void setWarningSink(Consumer<String> sink) {
+        WARNING_SINK.set(sink == null ? message -> { } : sink);
+    }
+
+    private static void warn(String message) {
+        WARNING_SINK.get().accept(message);
     }
 
     public Path getProjectDir() {
@@ -111,7 +124,7 @@ public final class DictionaryStore {
                         "Đã nạp chỉ mục có sẵn từ " + snapshotFile.getFileName() + " (" + millis + " ms)");
             } catch (IOException | RuntimeException ex) {
                 // Snapshot cũ / hỏng: bỏ qua và xây lại từ file text.
-                System.err.println("[DictionaryStore] Bỏ qua snapshot: " + ex.getMessage());
+                warn("[DictionaryStore] Bỏ qua snapshot: " + ex.getMessage());
             }
         }
 
@@ -123,7 +136,7 @@ public final class DictionaryStore {
         try {
             writeSnapshot(snapshotFile, dictionary.snapshot(), source, fingerprint);
         } catch (IOException ex) {
-            System.err.println("[DictionaryStore] Không ghi được snapshot: " + ex.getMessage());
+            warn("[DictionaryStore] Không ghi được snapshot: " + ex.getMessage());
         }
 
         return new LoadReport(dictionary, false, buildMillis, buildMillis, source,
@@ -140,7 +153,7 @@ public final class DictionaryStore {
             writeSnapshot(snapshotFile, snapshot, workingFile, fingerprint);
         } catch (IOException ex) {
             // Text đã lưu thành công; snapshot chỉ là cache nên không làm hỏng dữ liệu.
-            System.err.println("[DictionaryStore] Không ghi được snapshot: " + ex.getMessage());
+            warn("[DictionaryStore] Không ghi được snapshot: " + ex.getMessage());
         }
     }
 
@@ -155,7 +168,7 @@ public final class DictionaryStore {
         try {
             writeSnapshot(snapshotFile, dictionary.snapshot(), originalFile, fingerprint(originalFile));
         } catch (IOException ex) {
-            System.err.println("[DictionaryStore] Không ghi được snapshot sau reset: " + ex.getMessage());
+            warn("[DictionaryStore] Không ghi được snapshot sau reset: " + ex.getMessage());
         }
         return entries;
     }
@@ -473,3 +486,4 @@ public final class DictionaryStore {
         }
     }
 }
+

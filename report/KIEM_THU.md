@@ -29,9 +29,8 @@ Kết quả đầy đủ: [`test-results.txt`](test-results.txt).
 
 ## 3. Tổng hợp
 
-**88/88 kiểm tra đạt.** Các cảnh báo `[DictionaryStore] Bỏ qua snapshot...` xuất hiện
-trong test là **có chủ đích**: test cố tình làm hỏng / làm cũ snapshot để kiểm tra
-cơ chế fallback rebuild.
+**88/88 kiểm tra đạt.** Các test cố tình làm hỏng / làm cũ snapshot để kiểm tra
+cơ chế fallback rebuild; cảnh báo của `DictionaryStore` được test harness nuôi im lặng.
 
 | Nhóm | Nội dung | Kết quả |
 |------|----------|---------|
