@@ -45,6 +45,7 @@ public final class DictionaryStore {
     private final Path dataDir;
     private final Path workingFile;
     private final Path snapshotFile;
+    private int originalCountCache = -1;
 
     public DictionaryStore(Path projectDir) {
         this.projectDir = projectDir.toAbsolutePath();
@@ -160,7 +161,10 @@ public final class DictionaryStore {
     }
 
     public int originalEntryCount() throws IOException {
-        return parseTextFile(originalFile).size();
+        if (originalCountCache < 0) {
+            originalCountCache = parseTextFile(originalFile).size();
+        }
+        return originalCountCache;
     }
 
     /**
@@ -173,19 +177,20 @@ public final class DictionaryStore {
         long nextId = 1;
         try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
             String line;
-            int lineNumber = 0;
+            boolean firstContentLine = true;
             Slang current = null;
             while ((line = reader.readLine()) != null) {
-                lineNumber++;
-                if (lineNumber == 1) {
+                if (firstContentLine) {
                     line = line.replace("\uFEFF", "");
                 }
                 if (line.isBlank()) {
                     continue;
                 }
-                if (lineNumber == 1 && isHeader(line)) {
+                if (firstContentLine && isHeader(line)) {
+                    firstContentLine = false;
                     continue;
                 }
+                firstContentLine = false;
                 int separator = line.indexOf('`');
                 if (separator >= 0) {
                     String word = TextNormalizer.cleanWord(line.substring(0, separator));

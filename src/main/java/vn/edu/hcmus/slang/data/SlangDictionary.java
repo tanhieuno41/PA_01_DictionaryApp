@@ -123,7 +123,7 @@ public final class SlangDictionary {
             return List.of();
         }
         ensureAllIndexes();
-        List<Slang> result = definitionIndex.search(query, ordered);
+        List<Slang> result = new ArrayList<>(definitionIndex.search(query, ordered));
         result.sort(null);
         return result;
     }

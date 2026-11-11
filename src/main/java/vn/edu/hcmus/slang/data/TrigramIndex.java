@@ -84,7 +84,7 @@ public final class TrigramIndex {
         List<Slang> result = new ArrayList<>();
         if (query.length() < MIN_TRIGRAM_QUERY) {
             for (Slang entry : entries) {
-                if (entry.getSearchText().contains(query)) {
+                if (entry.matchesDefinition(query)) {
                     result.add(entry);
                 }
             }
@@ -126,7 +126,7 @@ public final class TrigramIndex {
             }
             if (inAll) {
                 Slang entry = entries.get(candidate);
-                if (entry.getSearchText().contains(query)) {
+                if (entry.matchesDefinition(query)) {
                     result.add(entry);
                 }
             }

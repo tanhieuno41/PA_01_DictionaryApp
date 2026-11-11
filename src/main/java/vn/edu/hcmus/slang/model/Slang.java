@@ -20,6 +20,7 @@ public final class Slang implements Comparable<Slang> {
     private String word;
     private String normalizedWord;
     private final List<String> definitions;
+    private final List<String> normalizedDefinitions = new ArrayList<>();
     private String searchText;
     private final long createdAt;
     private long updatedAt;
@@ -137,7 +138,21 @@ public final class Slang implements Comparable<Slang> {
         return searchText;
     }
 
+    /** Kiểm tra một định nghĩa đơn lẻ có chứa chuỗi đã chuẩn hoá hay không. */
+    public boolean matchesDefinition(String normalizedQuery) {
+        for (String definition : normalizedDefinitions) {
+            if (definition.contains(normalizedQuery)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void refreshSearchText() {
+        normalizedDefinitions.clear();
+        for (String definition : definitions) {
+            normalizedDefinitions.add(TextNormalizer.normalizeSearchText(definition));
+        }
         this.searchText = TextNormalizer.normalizeSearchText(String.join(" ", definitions));
     }
 
