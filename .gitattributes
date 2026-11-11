@@ -6,4 +6,6 @@
 *.png binary
 *.jar binary
 slang.txt -text
+slang_clean.txt -text
 src/main/resources/data/slang.txt -text
+src/main/resources/data/slang_clean.txt -text

@@ -19,6 +19,9 @@ _pdf.txt
 _analyze*.py
 *.tmp
 *.log
+__pycache__/
+*.pyc
+~$*
 
 # Submission archives
 /*.zip

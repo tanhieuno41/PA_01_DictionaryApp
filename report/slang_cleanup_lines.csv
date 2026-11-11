@@ -1,0 +1,72 @@
+original_line,type,key,detail,action
+1,HEADER,Slag`Meaning,Header sai: 'Slag`Meaning'; chuẩn hoá thành 'Slang`Meaning',Sửa header
+413,MISSING_KEY,AMA,Dòng không có dấu `; gộp thành định nghĩa 'Against Medical Advice' của 'AMA',Gộp vào dòng trước
+908,MISSING_KEY,BOMB,Dòng không có dấu `; gộp thành định nghĩa 'Something really good' của 'BOMB',Gộp vào dòng trước
+1112,MISSING_KEY,C4C,Dòng không có dấu `; gộp thành định nghĩa 'Cam for Cam' của 'C4C',Gộp vào dòng trước
+2004,MISSING_KEY,ER,Dòng không có dấu `; gộp thành định nghĩa 'Indicating hesitation' của 'ER',Gộp vào dòng trước
+2882,MISSING_KEY,HOODIE,Dòng không có dấu `; gộp thành định nghĩa 'Person wearing a hooded sweatshirt' của 'HOODIE',Gộp vào dòng trước
+13,PIPE,>3,Định dạng dấu | không đồng nhất: 'Evil but happy|Hate',Chuẩn hoá '| '
+65,DEF_WHITESPACE,+1,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Partner ',Trim
+65,PIPE,+1,Định dạng dấu | không đồng nhất: 'Partner |Me too',Chuẩn hoá '| '
+83,DEF_WHITESPACE,/:),Định nghĩa #1 có khoảng trắng đầu/cuối: 'Flirtation ',Trim
+83,PIPE,/:),Định dạng dấu | không đồng nhất: 'Flirtation |Sign Of Suspicion',Chuẩn hoá '| '
+162,DEF_WHITESPACE,8-),Định nghĩa #1 có khoảng trắng đầu/cuối: 'Cool ',Trim
+163,DEF_WHITESPACE,8-|,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Nerdy ',Trim
+353,PIPE,AI,Định dạng dấu | không đồng nhất: 'Artificial Intelligence|As If',Chuẩn hoá '| '
+1080,KEY_WHITESPACE,BW ,Key có khoảng trắng đầu/cuối: 'BW ',Trim
+1089,DEF_WHITESPACE,BWW,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Buffalo Wild Wings ',Trim
+1137,PIPE,CAPS,Định dạng dấu | không đồng nhất: 'Bullets|Mushrooms',Chuẩn hoá '| '
+1160,DEF_WHITESPACE,CBR,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Captive Bead Ring ',Trim
+1448,DEF_WHITESPACE,CULO,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Ass ',Trim
+1958,TRUNCATED,ELNS,Định nghĩa bị cắt cụt: 'Eller noe s',Sửa thành 'Eller noe slikt'
+1989,DEF_WHITESPACE,EOT,Định nghĩa #1 có khoảng trắng đầu/cuối: 'End Of Thread ',Trim
+1989,PIPE,EOT,Định dạng dấu | không đồng nhất: 'End Of Thread |end of discussion',Chuẩn hoá '| '
+2295,PIPE,FTC,Định dạng dấu | không đồng nhất: 'Favorite|Thumbs up| Comment',Chuẩn hoá '| '
+2308,TRUNCATED,FTSE,Định nghĩa bị cắt cụt: 'Financial Times and the London Stock Exchang',Sửa thành 'Financial Times and the London Stock Exchange'
+2500,TRUNCATED,GMBH,Định nghĩa bị cắt cụt: 'Gesellschaft mit Beschr',Sửa thành 'Gesellschaft mit beschränkter Haftung'
+2564,DEF_WHITESPACE,GPC,Định nghĩa #2 có khoảng trắng đầu/cuối: ' Get/Post/Cookie ',Trim
+2755,KEY_WHITESPACE,HD ,Key có khoảng trắng đầu/cuối: 'HD ',Trim
+2825,KEY_WHITESPACE, HK,Key có khoảng trắng đầu/cuối: ' HK',Trim
+2941,KEY_WHITESPACE,HUNNED ,Key có khoảng trắng đầu/cuối: 'HUNNED ',Trim
+3028,DEF_WHITESPACE,ICC,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Ice Crown Citadel ',Trim
+3185,TRUNCATED,ILM,Định nghĩa bị cắt cụt: 'I lige m',Sửa thành 'I lige måde'
+3442,DEF_WHITESPACE,JCB,Định nghĩa #1 có khoảng trắng đầu/cuối: 'J C Bamford ',Trim
+3442,PIPE,JCB,Định dạng dấu | không đồng nhất: 'J C Bamford | excavator manufacturer',Chuẩn hoá '| '
+3742,PIPE,LATE,Định dạng dấu | không đồng nhất: 'Missed a period| possibly pregnant|Dead',Chuẩn hoá '| '
+3921,DEF_WHITESPACE,LOOT,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Money ',Trim
+4104,KEY_WHITESPACE,MBFAM ,Key có khoảng trắng đầu/cuối: 'MBFAM ',Trim
+4119,KEY_WHITESPACE, MCR,Key có khoảng trắng đầu/cuối: ' MCR',Trim
+4388,KEY_WHITESPACE,MW2 ,Key có khoảng trắng đầu/cuối: 'MW2 ',Trim
+4911,KEY_WHITESPACE,ONG ,Key có khoảng trắng đầu/cuối: 'ONG ',Trim
+5289,DEF_WHITESPACE,POTW,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Patient of the Week ',Trim
+5349,PIPE,PSI,Định dạng dấu | không đồng nhất: 'Pounds per Square Inch (pressure)|Greek letter',Chuẩn hoá '| '
+6040,DEF_WHITESPACE,SOOC,Định nghĩa #1 có khoảng trắng đầu/cuối: 'Straight Out Of Camera ',Trim
+6040,PIPE,SOOC,Định dạng dấu | không đồng nhất: 'Straight Out Of Camera |not Photoshopped',Chuẩn hoá '| '
+6194,KEY_WHITESPACE,SWAGG ,Key có khoảng trắng đầu/cuối: 'SWAGG ',Trim
+6222,KEY_WHITESPACE,SWND ,Key có khoảng trắng đầu/cuối: 'SWND ',Trim
+6425,KEY_WHITESPACE,THANQ ,Key có khoảng trắng đầu/cuối: 'THANQ ',Trim
+6443,KEY_WHITESPACE,THT ,Key có khoảng trắng đầu/cuối: 'THT ',Trim
+6784,KEY_WHITESPACE,UBER ,Key có khoảng trắng đầu/cuối: 'UBER ',Trim
+7061,KEY_WHITESPACE,WCB ,Key có khoảng trắng đầu/cuối: 'WCB ',Trim
+7661,NON_ASCII_KEY,Æ,Key non-ASCII: 'Æ' → '®',Ánh xạ ký tự
+7662,NON_ASCII_KEY,ô,Key non-ASCII: 'ô' → '™',Ánh xạ ký tự
+568,DUPLICATE,AWS,Trùng hoàn toàn với dòng 567: ['As We Speak'],Xoá bản ghi trùng
+1215,DUPLICATE,CHEESE,"Trùng hoàn toàn với dòng 1214: ['Drug', 'starter heroin', 'Money']",Xoá bản ghi trùng
+2184,DUPLICATE,FLAGGED,Trùng hoàn toàn với dòng 2183: ['Banned'],Xoá bản ghi trùng
+2522,DUPLICATE,GOAT,Trùng hoàn toàn với dòng 2344: ['Greatest Of All Time'],Xoá bản ghi trùng
+3470,DUPLICATE,JGI,Trùng hoàn toàn với dòng 3468: ['Just Google It'],Xoá bản ghi trùng
+3471,DUPLICATE,JGL,Trùng hoàn toàn với dòng 3469: ['Just Get Lost'],Xoá bản ghi trùng
+4119,DUPLICATE,MCR,Trùng hoàn toàn với dòng 4117: ['My Chemical Romance (band)'],Xoá bản ghi trùng
+4120,DUPLICATE,MD,"Trùng hoàn toàn với dòng 4118: ['Doctor of Medicine', 'Managing Director']",Xoá bản ghi trùng
+4442,DUPLICATE,NAE,Trùng hoàn toàn với dòng 4441: ['No'],Xoá bản ghi trùng
+5088,DUPLICATE,PBUH,Trùng hoàn toàn với dòng 5087: ['Peace Be Upon Him'],Xoá bản ghi trùng
+5411,DUPLICATE,PYP,Trùng hoàn toàn với dòng 5409: ['Play Your Position'],Xoá bản ghi trùng
+5412,DUPLICATE,PYT,Trùng hoàn toàn với dòng 5410: ['Pretty Young Thing'],Xoá bản ghi trùng
+6056,DUPLICATE,SOWIE,Trùng hoàn toàn với dòng 6055: ['Sorry'],Xoá bản ghi trùng
+6379,DUPLICATE,TEOTWAWKI,Trùng hoàn toàn với dòng 6378: ['The End Of The World As We Know It'],Xoá bản ghi trùng
+7337,DUPLICATE,WUWU,"Trùng hoàn toàn với dòng 7336: [""What's Up With You?""]",Xoá bản ghi trùng
+2738,MERGE_KEY,HB,Key lặp với dòng 2737 nhưng nghĩa khác; gộp định nghĩa,Gộp vào bản ghi đầu
+2800,MERGE_KEY,HH,Key lặp với dòng 2799 nhưng nghĩa khác; gộp định nghĩa,Gộp vào bản ghi đầu
+5002,MERGE_KEY,OTW,Key lặp với dòng 5001 nhưng nghĩa khác; gộp định nghĩa,Gộp vào bản ghi đầu
+3806,ORDER,LGBT,LGBT (dòng 3806) đứng sau LGBTQ (dòng 3805); sai thứ tự A–Z,Đổi chỗ
+3868,ORDER,LMAO,LMAO (dòng 3868) đứng sau LMAP (dòng 3867); sai thứ tự A–Z,Đổi chỗ
