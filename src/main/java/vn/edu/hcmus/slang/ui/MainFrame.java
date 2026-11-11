@@ -161,7 +161,7 @@ public final class MainFrame extends JFrame implements AppHost {
         addNav(nav, ADD, "Thêm slang word");
         addNav(nav, EDIT, "Chỉnh sửa slang word");
         addNav(nav, DELETE, "Xóa slang word");
-        addNav(nav, RESET, "Khôi phục dữ liệu gốc");
+        addNav(nav, RESET, "Khôi phục dữ liệu chuẩn");
         addSection(nav, "KHÁM PHÁ");
         addNav(nav, RANDOM, "Slang word mỗi ngày");
         addNav(nav, QUIZ_WORD, "Đố vui: đoán định nghĩa");
@@ -248,7 +248,7 @@ public final class MainFrame extends JFrame implements AppHost {
         functions.add(item("4. Thêm slang word", ADD, KeyEvent.VK_4));
         functions.add(item("5. Chỉnh sửa slang word", EDIT, KeyEvent.VK_5));
         functions.add(item("6. Xóa slang word", DELETE, KeyEvent.VK_6));
-        functions.add(item("7. Khôi phục dữ liệu gốc", RESET, KeyEvent.VK_7));
+        functions.add(item("7. Khôi phục dữ liệu chuẩn", RESET, KeyEvent.VK_7));
         functions.addSeparator();
         functions.add(item("8. Slang word ngẫu nhiên", RANDOM, KeyEvent.VK_8));
         functions.add(item("9. Đố vui: đoán định nghĩa", QUIZ_WORD, KeyEvent.VK_9));
@@ -316,7 +316,8 @@ public final class MainFrame extends JFrame implements AppHost {
     private void showDataInfo() {
         DictionaryStore store = store();
         String message = "<html><div style='width:560px'>"
-                + "<b>File gốc:</b> " + store.getOriginalFile() + "<br>"
+                + "<b>File gốc (raw):</b> " + store.getRawFile() + "<br>"
+                + "<b>File chuẩn hoá:</b> " + store.getCleanFile() + "<br>"
                 + "<b>File đang dùng:</b> " + boot.loadReport().sourceFile() + "<br>"
                 + "<b>Snapshot chỉ mục:</b> " + store.getSnapshotFile() + "<br>"
                 + "<b>Lịch sử:</b> " + store.getDataDir().resolve("history.txt") + "<br><br>"

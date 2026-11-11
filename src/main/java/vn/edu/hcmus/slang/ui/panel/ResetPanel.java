@@ -21,7 +21,7 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.io.IOException;
 
-/** Chức năng 7: khôi phục danh sách slang word gốc. */
+/** Chức năng 7: khôi phục danh sách slang word chuẩn. */
 public final class ResetPanel extends JPanel implements Refreshable, DemoScreen {
 
     private final AppHost host;
@@ -33,8 +33,8 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
         super(new BorderLayout());
         this.host = host;
         setBackground(Theme.BG);
-        add(Ui.page("Khôi phục dữ liệu gốc",
-                "Chức năng 7 · Đưa danh sách slang word trở về đúng file slang.txt ban đầu",
+        add(Ui.page("Khôi phục dữ liệu chuẩn",
+                "Chức năng 7 · Đưa danh sách slang word trở về bản chuẩn hoá slang_clean.txt",
                 buildBody()), BorderLayout.CENTER);
         refreshCounts();
     }
@@ -56,17 +56,26 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
         card.add(badge);
         card.add(Box.createVerticalStrut(18));
 
-        JLabel title = Ui.label("Khôi phục danh sách slang word gốc", 22, Font.BOLD, Theme.TEXT);
+        JLabel title = Ui.label("Khôi phục danh sách slang word chuẩn", 22, Font.BOLD, Theme.TEXT);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         card.add(title);
         card.add(Box.createVerticalStrut(10));
 
-        JLabel description = Ui.htmlLabel("<html><div style='text-align:center;width:600px'>"
-                + "Toàn bộ thay đổi thêm / sửa / xóa sẽ bị hủy và dữ liệu được nạp lại từ file "
-                + "<b>slang.txt</b> gốc.<br>Lịch sử tra cứu không bị ảnh hưởng."
+        JLabel description1 = Ui.label("Toàn bộ thay đổi thêm / sửa / xóa sẽ bị hủy.",
+                13, Font.PLAIN, Theme.MUTED);
+        description1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel description2 = Ui.htmlLabel("<html><div style='text-align:center;width:560px'>"
+                + "Dữ liệu được nạp lại từ <b>slang_clean.txt</b> (bản chuẩn hoá từ slang.txt)."
                 + "</div></html>", 13, Font.PLAIN, Theme.MUTED);
-        description.setAlignmentX(Component.CENTER_ALIGNMENT);
-        card.add(description);
+        description2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel description3 = Ui.label("Lịch sử tra cứu không bị ảnh hưởng.",
+                13, Font.PLAIN, Theme.MUTED);
+        description3.setAlignmentX(Component.CENTER_ALIGNMENT);
+        card.add(description1);
+        card.add(Box.createVerticalStrut(3));
+        card.add(description2);
+        card.add(Box.createVerticalStrut(3));
+        card.add(description3);
         card.add(Box.createVerticalStrut(24));
 
         JPanel stats = new JPanel(new java.awt.GridLayout(1, 2, 14, 0));
@@ -74,7 +83,7 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
         stats.setAlignmentX(Component.CENTER_ALIGNMENT);
         stats.setMaximumSize(new Dimension(560, 92));
         stats.add(statCard("Hiện tại", currentLabel));
-        stats.add(statCard("Dữ liệu gốc", originalLabel));
+        stats.add(statCard("Dữ liệu chuẩn", originalLabel));
         card.add(stats);
         card.add(Box.createVerticalStrut(16));
 
@@ -82,7 +91,7 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
         card.add(pathLabel);
         card.add(Box.createVerticalGlue());
 
-        FlatButton reset = new FlatButton("Khôi phục dữ liệu gốc", FlatButton.Variant.DANGER, 44);
+        FlatButton reset = new FlatButton("Khôi phục dữ liệu chuẩn", FlatButton.Variant.DANGER, 44);
         reset.setAlignmentX(Component.CENTER_ALIGNMENT);
         reset.addActionListener(e -> reset());
         card.add(reset);
@@ -105,7 +114,7 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
     }
 
     private void reset() {
-        boolean confirmed = Dialogs.confirm(this, "Khôi phục dữ liệu gốc",
+        boolean confirmed = Dialogs.confirm(this, "Khôi phục dữ liệu chuẩn",
                 "<html><div style='width:420px'>Mọi thay đổi hiện tại sẽ bị mất.<br>"
                         + "<b>Bạn chắc chắn muốn khôi phục?</b></div></html>",
                 "Khôi phục");
@@ -115,11 +124,11 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
         try {
             int count = host.store().resetToOriginal(host.dictionary()).size();
             host.notifyDataChanged();
-            host.setStatus("Đã khôi phục " + Ui.formatInt(count) + " slang word gốc");
+            host.setStatus("Đã khôi phục " + Ui.formatInt(count) + " slang word chuẩn");
             refreshCounts();
         } catch (IOException ex) {
             Dialogs.error(this, "Không khôi phục được",
-                    "<html><div style='width:420px'>Không đọc được file dữ liệu gốc:<br><b>"
+                    "<html><div style='width:420px'>Không đọc được file dữ liệu chuẩn:<br><b>"
                             + ex.getMessage() + "</b></div></html>");
         }
     }

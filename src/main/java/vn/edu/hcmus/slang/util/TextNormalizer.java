@@ -20,12 +20,12 @@ public final class TextNormalizer {
     private TextNormalizer() {
     }
 
-    /** Chuẩn hoá khoá tra cứu: NFKC, gộp khoảng trắng, chữ thường. */
+    /** Chuẩn hoá khoá tra cứu: NFC, gộp khoảng trắng, chữ thường. */
     public static String normalizeWord(String value) {
         if (value == null) {
             return "";
         }
-        String text = Normalizer.normalize(value, Normalizer.Form.NFKC);
+        String text = Normalizer.normalize(value, Normalizer.Form.NFC);
         text = WHITESPACE.matcher(text).replaceAll(" ").trim();
         return text.toLowerCase(Locale.ROOT);
     }
@@ -42,9 +42,11 @@ public final class TextNormalizer {
         if (value == null) {
             return "";
         }
-        String text = Normalizer.normalize(value, Normalizer.Form.NFKC);
+        String text = Normalizer.normalize(value, Normalizer.Form.NFC);
         text = WHITESPACE.matcher(text).replaceAll(" ").trim();
-        return text.replace('`', '\'').replace('|', '/');
+        // Key có thể chứa ký tự | (ví dụ |O|, :|); chỉ backtick là dấu phân
+        // tách key/meaning nên không được phép xuất hiện trong key.
+        return text.replace('`', '\'');
     }
 
     /** Làm sạch một định nghĩa đơn lẻ. */
@@ -52,7 +54,7 @@ public final class TextNormalizer {
         if (value == null) {
             return "";
         }
-        String text = Normalizer.normalize(value, Normalizer.Form.NFKC);
+        String text = Normalizer.normalize(value, Normalizer.Form.NFC);
         text = WHITESPACE.matcher(text).replaceAll(" ").trim();
         // Backtick và pipe là ký tự phân tách của định dạng file.
         return text.replace('`', '\'').replace('|', '/');

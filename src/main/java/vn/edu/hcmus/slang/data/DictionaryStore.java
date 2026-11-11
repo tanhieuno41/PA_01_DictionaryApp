@@ -45,6 +45,8 @@ public final class DictionaryStore {
             new AtomicReference<>(System.err::println);
 
     private final Path projectDir;
+    private final Path rawFile;
+    private final Path cleanFile;
     private final Path originalFile;
     private final Path dataDir;
     private final Path workingFile;
@@ -53,7 +55,9 @@ public final class DictionaryStore {
 
     public DictionaryStore(Path projectDir) {
         this.projectDir = projectDir.toAbsolutePath();
-        this.originalFile = this.projectDir.resolve("slang.txt");
+        this.rawFile = this.projectDir.resolve("slang.txt");
+        this.cleanFile = this.projectDir.resolve("slang_clean.txt");
+        this.originalFile = Files.isRegularFile(cleanFile) ? cleanFile : rawFile;
         this.dataDir = this.projectDir.resolve("data");
         this.workingFile = dataDir.resolve("slang_modified.txt");
         this.snapshotFile = dataDir.resolve("dictionary.bin");
@@ -74,6 +78,14 @@ public final class DictionaryStore {
 
     public Path getOriginalFile() {
         return originalFile;
+    }
+
+    public Path getRawFile() {
+        return rawFile;
+    }
+
+    public Path getCleanFile() {
+        return cleanFile;
     }
 
     public Path getDataDir() {
@@ -157,7 +169,7 @@ public final class DictionaryStore {
         }
     }
 
-    /** Khôi phục danh sách gốc từ slang.txt. */
+    /** Khôi phục danh sách chuẩn từ slang_clean.txt. */
     public synchronized List<Slang> resetToOriginal(SlangDictionary dictionary) throws IOException {
         if (!Files.isRegularFile(originalFile)) {
             throw new IOException("Không tìm thấy file gốc: " + originalFile);

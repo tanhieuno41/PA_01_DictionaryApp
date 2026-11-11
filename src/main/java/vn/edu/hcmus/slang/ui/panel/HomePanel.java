@@ -254,7 +254,7 @@ public final class HomePanel extends JPanel implements Refreshable, DemoScreen {
     private void renderDailyWord() {
         if (dailyWord == null) {
             dailyWordLabel.setText("Chưa có dữ liệu");
-            dailyDefinitions.setText("Hãy thêm slang word hoặc khôi phục dữ liệu gốc.");
+            dailyDefinitions.setText("Hãy thêm slang word hoặc khôi phục dữ liệu chuẩn.");
             return;
         }
         dailyWordLabel.setText(dailyWord.getWord());

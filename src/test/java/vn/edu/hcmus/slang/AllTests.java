@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  */
 public final class AllTests {
 
-    private static final Path ROOT = Paths.get("slang.txt");
+    private static final Path ROOT = Paths.get("slang_clean.txt");
     private static final Path TEMP_ROOT = Paths.get("build", "test-tmp");
 
     private static int passed;
@@ -46,7 +46,7 @@ public final class AllTests {
         System.out.println(" SLANG DICTIONARY - AUTOMATED TEST SUITE");
         System.out.println("============================================================");
         if (!Files.isRegularFile(ROOT)) {
-            System.err.println("Không tìm thấy slang.txt ở thư mục hiện tại.");
+            System.err.println("Không tìm thấy slang_clean.txt ở thư mục hiện tại.");
             System.exit(2);
         }
         deleteRecursively(TEMP_ROOT);
@@ -79,17 +79,17 @@ public final class AllTests {
     }
 
     private static void testDataset() {
-        check("dataset có 7.656 mục từ", originalEntries.size() == 7656,
+        check("dataset chuẩn có 7.638 mục từ", originalEntries.size() == 7638,
                 "actual=" + originalEntries.size());
         int definitions = originalEntries.stream().mapToInt(s -> s.getDefinitions().size()).sum();
-        check("dataset có 8.959 định nghĩa", definitions == 8959, "actual=" + definitions);
+        check("dataset chuẩn có 8.941 định nghĩa", definitions == 8941, "actual=" + definitions);
         check("không có mục từ rỗng", originalEntries.stream().allMatch(s -> !s.getWord().isBlank()
                 && !s.getDefinitions().isEmpty()));
         Slang ama = originalEntries.stream().filter(s -> s.getWord().equalsIgnoreCase("AMA"))
                 .findFirst().orElse(null);
-        check("đọc được dòng định nghĩa nối tiếp (AMA)", ama != null
+        check("AMA có định nghĩa Against Medical Advice", ama != null
                 && ama.getDefinitions().stream().anyMatch(d -> d.equalsIgnoreCase("Against Medical Advice")));
-        check("chuẩn hoá khoá từ", fullDictionary.uniqueWordCount() > 7500,
+        check("chuẩn hoá khoá từ", fullDictionary.uniqueWordCount() == 7638,
                 "unique=" + fullDictionary.uniqueWordCount());
     }
 
@@ -214,7 +214,7 @@ public final class AllTests {
     private static void testReset() throws Exception {
         Path dir = TEMP_ROOT.resolve("reset");
         Files.createDirectories(dir);
-        Files.copy(ROOT, dir.resolve("slang.txt"));
+        Files.copy(ROOT, dir.resolve("slang_clean.txt"));
         DictionaryStore store = new DictionaryStore(dir);
         DictionaryStore.LoadReport report = store.load();
         SlangDictionary dictionary = report.dictionary();

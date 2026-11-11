@@ -27,7 +27,7 @@ try {
     Write-Host "==> Chuẩn bị nội dung bài nộp" -ForegroundColor Cyan
     Copy-Item -Path "src" -Destination $stage -Recurse -Force
     Copy-Item -Path "dist\SlangDictionary.jar" -Destination $stage -Force
-    Copy-Item -Path "slang.txt", "README.md", "build.ps1", "run.bat", "test.bat", "pom.xml" -Destination $stage -Force
+    Copy-Item -Path "slang.txt", "slang_clean.txt", "README.md", "build.ps1", "run.bat", "test.bat", "pom.xml" -Destination $stage -Force
     Copy-Item -Path "report" -Destination $stage -Recurse -Force
     if (Test-Path "data") {
         Copy-Item -Path "data" -Destination $stage -Recurse -Force

@@ -100,7 +100,7 @@ public final class RandomPanel extends JPanel implements Refreshable, DemoScreen
         dateLabel.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         if (current == null) {
             wordLabel.setText("Chưa có dữ liệu");
-            definitionsArea.setText("Hãy thêm slang word hoặc khôi phục dữ liệu gốc.");
+            definitionsArea.setText("Hãy thêm slang word hoặc khôi phục dữ liệu chuẩn.");
             counterChip.setText("0 mục từ");
             return;
         }

@@ -68,7 +68,7 @@ public final class App {
                     JOptionPane.showMessageDialog(null,
                             "<html><div style='width:460px'>Không khởi động được ứng dụng:<br><b>"
                                     + cause.getMessage() + "</b><br><br>"
-                                    + "Hãy kiểm tra file slang.txt và quyền ghi thư mục dự án.</div></html>",
+                                    + "Hãy kiểm tra file slang_clean.txt / slang.txt và quyền ghi thư mục dự án.</div></html>",
                             "Lỗi khởi động", JOptionPane.PLAIN_MESSAGE);
                     System.exit(1);
                 }

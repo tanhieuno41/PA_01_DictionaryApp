@@ -8,10 +8,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-/** Xác định thư mục làm việc và bảo đảm luôn có file dữ liệu gốc. */
+/** Xác định thư mục làm việc và bảo đảm luôn có file dữ liệu. */
 public final class AppPaths {
 
     public static final String ORIGINAL_FILE_NAME = "slang.txt";
+    public static final String CLEAN_FILE_NAME = "slang_clean.txt";
     public static final String DATA_DIR_NAME = "data";
 
     private AppPaths() {
@@ -19,20 +20,25 @@ public final class AppPaths {
 
     public static Path resolveProjectDir() {
         Path current = Paths.get("").toAbsolutePath();
-        if (Files.isRegularFile(current.resolve(ORIGINAL_FILE_NAME))) {
+        if (hasDataFile(current)) {
             return current;
         }
         Path codeDir = codeSourceDirectory();
         if (codeDir != null) {
-            if (Files.isRegularFile(codeDir.resolve(ORIGINAL_FILE_NAME))) {
+            if (hasDataFile(codeDir)) {
                 return codeDir;
             }
             Path parent = codeDir.getParent();
-            if (parent != null && Files.isRegularFile(parent.resolve(ORIGINAL_FILE_NAME))) {
+            if (parent != null && hasDataFile(parent)) {
                 return parent;
             }
         }
         return current;
+    }
+
+    private static boolean hasDataFile(Path directory) {
+        return Files.isRegularFile(directory.resolve(ORIGINAL_FILE_NAME))
+                || Files.isRegularFile(directory.resolve(CLEAN_FILE_NAME));
     }
 
     public static Path dataDir(Path projectDir) {
@@ -40,25 +46,41 @@ public final class AppPaths {
     }
 
     /**
-     * Nếu thiếu slang.txt (ví dụ chạy jar ở thư mục khác), giải nén bản dữ
-     * liệu đi kèm trong jar. Nếu resource cũng không có, tạo dữ liệu mẫu nhỏ.
+     * Bảo đảm có file dữ liệu. Bản gốc {@code slang.txt} được giữ nguyên để
+     * đối chiếu; bản đã chuẩn hoá {@code slang_clean.txt} là dữ liệu ứng dụng
+     * ưu tiên sử dụng. Nếu thiếu file, giải nén bản đi kèm jar; nếu không có
+     * resource thì tạo dữ liệu mẫu nhỏ.
      */
     public static Path ensureOriginalData(Path projectDir) throws IOException {
         Files.createDirectories(projectDir);
         Path original = projectDir.resolve(ORIGINAL_FILE_NAME);
-        if (Files.isRegularFile(original)) {
-            return original;
-        }
-        try (InputStream resource = AppPaths.class.getResourceAsStream("/data/" + ORIGINAL_FILE_NAME)) {
-            if (resource != null) {
-                Path temp = Files.createTempFile(projectDir, "slang", ".tmp");
-                Files.copy(resource, temp, StandardCopyOption.REPLACE_EXISTING);
-                moveAtomic(temp, original);
-                return original;
+        Path clean = projectDir.resolve(CLEAN_FILE_NAME);
+
+        if (!Files.isRegularFile(original)) {
+            if (!extractResource(ORIGINAL_FILE_NAME, original)) {
+                Files.writeString(original, sampleData(), java.nio.charset.StandardCharsets.UTF_8);
             }
         }
-        Files.writeString(original, sampleData(), java.nio.charset.StandardCharsets.UTF_8);
+        if (!Files.isRegularFile(clean)) {
+            extractResource(CLEAN_FILE_NAME, clean);
+        }
         return original;
+    }
+
+    private static boolean extractResource(String name, Path target) throws IOException {
+        try (InputStream resource = AppPaths.class.getResourceAsStream("/data/" + name)) {
+            if (resource == null) {
+                return false;
+            }
+            Path parent = target.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            }
+            Path temp = Files.createTempFile(parent, "data", ".tmp");
+            Files.copy(resource, temp, StandardCopyOption.REPLACE_EXISTING);
+            moveAtomic(temp, target);
+            return true;
+        }
     }
 
     private static Path codeSourceDirectory() {
