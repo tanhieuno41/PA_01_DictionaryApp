@@ -18,3 +18,11 @@ Thumbs.db
 _pdf.txt
 _analyze*.py
 *.tmp
+*.log
+
+# Submission archives
+/*.zip
+
+# Source assignment / reference material
+DAMH#1.pdf
+Type Parameter.txt
