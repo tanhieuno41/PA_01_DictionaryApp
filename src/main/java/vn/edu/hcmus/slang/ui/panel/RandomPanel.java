@@ -30,7 +30,7 @@ public final class RandomPanel extends JPanel implements Refreshable, DemoScreen
     private final AppHost host;
     private final JLabel wordLabel = Ui.label("—", 52, Font.BOLD, Color.WHITE);
     private final JTextArea definitionsArea = new JTextArea();
-    private final JLabel dateLabel = Ui.label("", 11, Font.PLAIN, new Color(0xE0E7FF));
+    private final JLabel dateLabel = Ui.label("", 11, Font.PLAIN, new Color(0xE5E5E5));
     private final Chip counterChip = new Chip("", new Color(255, 255, 255, 30), Color.WHITE);
     private Slang current;
 
@@ -47,7 +47,7 @@ public final class RandomPanel extends JPanel implements Refreshable, DemoScreen
         JPanel wrapper = new JPanel(new GridBagLayout());
         wrapper.setOpaque(false);
 
-        GradientPanel hero = new GradientPanel(new Color(0x4F46E5), new Color(0x9333EA), 24);
+        GradientPanel hero = new GradientPanel(new Color(0x0A0A0A), new Color(0x3A3A3A), 24);
         hero.setLayout(new BorderLayout(0, 16));
         hero.setBorder(new EmptyBorder(30, 36, 30, 36));
         hero.setPreferredSize(new Dimension(900, 440));
@@ -69,7 +69,7 @@ public final class RandomPanel extends JPanel implements Refreshable, DemoScreen
         definitionsArea.setFocusable(false);
         definitionsArea.setOpaque(false);
         definitionsArea.setFont(Theme.font(16, Font.PLAIN));
-        definitionsArea.setForeground(new Color(0xEDE9FE));
+        definitionsArea.setForeground(new Color(0xEDEDED));
         definitionsArea.setLineWrap(true);
         definitionsArea.setWrapStyleWord(true);
         definitionsArea.setBorder(new EmptyBorder(0, 0, 0, 0));

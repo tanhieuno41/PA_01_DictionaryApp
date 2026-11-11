@@ -27,24 +27,24 @@ public final class Dialogs {
     }
 
     public static void error(Component parent, String title, String message) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.PLAIN_MESSAGE);
     }
 
     public static void info(Component parent, String title, String message) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.PLAIN_MESSAGE);
     }
 
     public static boolean confirm(Component parent, String title, String message, String okText) {
         Object[] options = {okText, "Hủy"};
         int choice = JOptionPane.showOptionDialog(parent, message, title, JOptionPane.DEFAULT_OPTION,
-                JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+                JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
         return choice == 0;
     }
 
     public static boolean confirmDelete(Component parent, Slang slang) {
         String message = "<html><div style='width:420px'>Bạn có chắc muốn xóa slang word "
                 + "<b>" + TextNormalizer.escapeHtml(slang.getWord()) + "</b>?<br><br>"
-                + "<span style='color:#64748B'>" + TextNormalizer.escapeHtml(
+                + "<span style='color:#525252'>" + TextNormalizer.escapeHtml(
                         shorten(slang.getJoinedDefinitions(), 220)) + "</span><br><br>"
                 + "Hành động này không thể hoàn tác.</div></html>";
         return confirm(parent, "Xác nhận xóa", message, "Xóa");
@@ -60,7 +60,7 @@ public final class Dialogs {
             if (shown >= 3) {
                 break;
             }
-            html.append("<div style='background:#F8FAFC;padding:6px 8px;margin-bottom:4px'>")
+            html.append("<div style='background:#F5F5F5;padding:6px 8px;margin-bottom:4px'>")
                     .append(TextNormalizer.escapeHtml(shorten(slang.getJoinedDefinitions(), 180)))
                     .append("</div>");
             shown++;
@@ -74,7 +74,7 @@ public final class Dialogs {
 
         Object[] options = {"Ghi đè", "Thêm bản trùng", "Hủy"};
         int choice = JOptionPane.showOptionDialog(parent, html.toString(), "Slang word đã tồn tại",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
         return switch (choice) {
             case 0 -> DuplicateChoice.OVERWRITE;
             case 1 -> DuplicateChoice.ADD_DUPLICATE;

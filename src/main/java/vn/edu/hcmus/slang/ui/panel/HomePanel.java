@@ -37,14 +37,14 @@ public final class HomePanel extends JPanel implements Refreshable, DemoScreen {
 
     private final AppHost host;
     private final StatCard entriesCard = new StatCard("Tổng slang word", "mục từ trong từ điển", Theme.ACCENT);
-    private final StatCard wordsCard = new StatCard("Từ duy nhất", "sau khi chuẩn hoá khoá", new Color(0x0EA5E9));
+    private final StatCard wordsCard = new StatCard("Từ duy nhất", "sau khi chuẩn hoá khoá", new Color(0x525252));
     private final StatCard definitionsCard = new StatCard("Định nghĩa", "tổng số nghĩa đã lưu", Theme.SUCCESS);
     private final StatCard historyCard = new StatCard("Lịch sử", "lượt tra cứu gần đây", Theme.WARNING);
 
     private final JLabel dailyWordLabel = Ui.label("—", 44, Font.BOLD, Color.WHITE);
-    private final JLabel dailyDateLabel = Ui.label("", 11, Font.PLAIN, new Color(0xE0E7FF));
+    private final JLabel dailyDateLabel = Ui.label("", 11, Font.PLAIN, new Color(0xE5E5E5));
     private final JTextArea dailyDefinitions = new JTextArea();
-    private final JLabel dailyCaption = Ui.label("SLANG WORD OF THE DAY", 10, Font.BOLD, new Color(0xC7D2FE));
+    private final JLabel dailyCaption = Ui.label("SLANG WORD OF THE DAY", 10, Font.BOLD, new Color(0xD4D4D4));
     private final JLabel sourceLabel = Ui.label("", 12, Font.BOLD, Theme.TEXT);
     private final Chip indexChip = new Chip("Đang kiểm tra", Theme.ACCENT_SOFT, Theme.ACCENT);
     private Slang dailyWord;
@@ -93,7 +93,7 @@ public final class HomePanel extends JPanel implements Refreshable, DemoScreen {
     }
 
     private JPanel buildHero() {
-        GradientPanel hero = new GradientPanel(new Color(0x4F46E5), new Color(0x7C3AED), 20);
+        GradientPanel hero = new GradientPanel(new Color(0x0A0A0A), new Color(0x3A3A3A), 20);
         hero.setLayout(new BorderLayout(0, 12));
         hero.setBorder(new EmptyBorder(22, 26, 22, 26));
 
@@ -102,10 +102,10 @@ public final class HomePanel extends JPanel implements Refreshable, DemoScreen {
         top.add(today);
         top.add(Box.createHorizontalStrut(10));
         JLabel caption = dailyCaption;
-        caption.setForeground(new Color(0xE0E7FF));
+        caption.setForeground(new Color(0xE5E5E5));
         top.add(caption);
         top.add(Box.createHorizontalGlue());
-        dailyDateLabel.setForeground(new Color(0xE0E7FF));
+        dailyDateLabel.setForeground(new Color(0xE5E5E5));
         top.add(dailyDateLabel);
 
         JPanel center = new JPanel(new BorderLayout(0, 6));
@@ -118,7 +118,7 @@ public final class HomePanel extends JPanel implements Refreshable, DemoScreen {
         dailyDefinitions.setFocusable(false);
         dailyDefinitions.setOpaque(false);
         dailyDefinitions.setFont(Theme.font(13, Font.PLAIN));
-        dailyDefinitions.setForeground(new Color(0xE0E7FF));
+        dailyDefinitions.setForeground(new Color(0xE5E5E5));
         dailyDefinitions.setLineWrap(true);
         dailyDefinitions.setWrapStyleWord(true);
         dailyDefinitions.setBorder(new EmptyBorder(0, 0, 0, 0));

@@ -38,7 +38,7 @@ public final class QuizPanel extends JPanel implements Refreshable, DemoScreen {
     private final JLabel promptCaption = Ui.label("", 10, Font.BOLD, Theme.FAINT);
     private final JLabel promptWord = Ui.label("", 34, Font.BOLD, Theme.TEXT);
     private final JTextArea promptDefinition = new JTextArea(2, 40);
-    private final RoundedPanel promptCard = new RoundedPanel(new java.awt.Color(0xF8FAFC), 12);
+    private final RoundedPanel promptCard = new RoundedPanel(new java.awt.Color(0xFAFAFA), 12);
     private final JPanel promptContent = Ui.vbox();
     private final JPanel optionsPanel = new JPanel(new GridLayout(4, 1, 0, 10));
     private final List<QuizOption> optionComponents = new ArrayList<>();
@@ -122,7 +122,7 @@ public final class QuizPanel extends JPanel implements Refreshable, DemoScreen {
         footer.setOpaque(false);
         footer.setAlignmentX(Component.LEFT_ALIGNMENT);
         footer.setMaximumSize(new Dimension(Integer.MAX_VALUE, 42));
-        JLabel hint = Ui.label("Đáp án đúng được tô xanh, đáp án sai được tô đỏ.", 11, Font.PLAIN, Theme.FAINT);
+        JLabel hint = Ui.label("Đáp án đúng có viền đậm, đáp án sai có viền nét đứt.", 11, Font.PLAIN, Theme.FAINT);
         footer.add(hint, BorderLayout.WEST);
         nextButton.setEnabled(false);
         nextButton.addActionListener(e -> nextQuestion());
@@ -146,7 +146,7 @@ public final class QuizPanel extends JPanel implements Refreshable, DemoScreen {
         try {
             question = quizService.nextQuestion(mode);
         } catch (RuntimeException ex) {
-            feedbackLabel.setText("<html><span style='color:#DC2626'>" + TextNormalizer.escapeHtml(ex.getMessage())
+            feedbackLabel.setText("<html><span style='color:#000000'>" + TextNormalizer.escapeHtml(ex.getMessage())
                     + "</span></html>");
             nextButton.setEnabled(false);
             return;
@@ -223,7 +223,7 @@ public final class QuizPanel extends JPanel implements Refreshable, DemoScreen {
         } else {
             feedbackLabel.setForeground(Theme.DANGER);
             feedbackLabel.setText("<html><div style='width:800px'><b>Chưa đúng.</b> Đáp án đúng: "
-                    + answer + "<br><span style='color:#64748B'>"
+                    + answer + "<br><span style='color:#525252'>"
                     + TextNormalizer.escapeHtml(shorten(question.explanation(), 280))
                     + "</span></div></html>");
         }
@@ -280,6 +280,14 @@ public final class QuizPanel extends JPanel implements Refreshable, DemoScreen {
     public void prepareDemo() {
         if (question == null) {
             nextQuestion();
+        }
+    }
+
+    /** Dùng cho ảnh kiểm thử: chọn một đáp án sai để thấy cả trạng thái đúng/sai. */
+    public void demoAnswerWrong() {
+        if (question != null && !answered) {
+            int wrong = (question.correctIndex() + 1) % question.choices().size();
+            answer(wrong);
         }
     }
 }

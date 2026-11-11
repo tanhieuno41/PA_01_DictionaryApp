@@ -139,8 +139,8 @@ public final class MainFrame extends JFrame implements AppHost {
 
         JPanel brandText = Ui.vbox();
         JLabel name = Ui.label("SLANG", 21, Font.BOLD, Color.WHITE);
-        JLabel sub = Ui.label("DICTIONARY", 9, Font.BOLD, new Color(0x818CF8));
-        JLabel course = Ui.label("CSC13002 · Lập trình ứng dụng Java", 9, Font.PLAIN, new Color(0x64748B));
+        JLabel sub = Ui.label("DICTIONARY", 9, Font.BOLD, new Color(0xD4D4D4));
+        JLabel course = Ui.label("CSC13002 · Lập trình ứng dụng Java", 9, Font.PLAIN, new Color(0xA3A3A3));
         name.setAlignmentX(Component.LEFT_ALIGNMENT);
         sub.setAlignmentX(Component.LEFT_ALIGNMENT);
         course.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -179,12 +179,12 @@ public final class MainFrame extends JFrame implements AppHost {
     }
 
     private JPanel buildSidebarFooter() {
-        RoundedPanel card = new RoundedPanel(new Color(0x16213A), 12);
+        RoundedPanel card = new RoundedPanel(new Color(0x1A1A1A), 12);
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(new EmptyBorder(11, 12, 11, 12));
-        JLabel title = Ui.label("DỮ LIỆU CỤC BỘ", 9, Font.BOLD, new Color(0x94A3B8));
+        JLabel title = Ui.label("DỮ LIỆU CỤC BỘ", 9, Font.BOLD, new Color(0xBDBDBD));
         sideCountLabel.setForeground(Color.WHITE);
-        JLabel note = Ui.label("Lưu tự động · không cần mạng", 9, Font.PLAIN, new Color(0x94A3B8));
+        JLabel note = Ui.label("Lưu tự động · không cần mạng", 9, Font.PLAIN, new Color(0xBDBDBD));
         title.setAlignmentX(Component.LEFT_ALIGNMENT);
         sideCountLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
         note.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -197,7 +197,7 @@ public final class MainFrame extends JFrame implements AppHost {
     }
 
     private void addSection(JPanel nav, String text) {
-        JLabel label = Ui.label(text, 9, Font.BOLD, new Color(0x94A3B8));
+        JLabel label = Ui.label(text, 9, Font.BOLD, new Color(0xBDBDBD));
         label.setBorder(new EmptyBorder(16, 8, 5, 8));
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         nav.add(label);
@@ -290,12 +290,12 @@ public final class MainFrame extends JFrame implements AppHost {
     private void showAbout() {
         String message = "<html><div style='width:480px'>"
                 + "<h2 style='margin:0'>Slang Dictionary</h2>"
-                + "<p style='color:#64748B'>Đồ án #1 – Slang Word · CSC13002 – Lập trình ứng dụng Java</p>"
+                + "<p style='color:#525252'>Đồ án #1 – Slang Word · CSC13002 – Lập trình ứng dụng Java</p>"
                 + "<p>Ứng dụng minh hoạ <b>Java IO</b>, <b>OOP</b>, <b>Generic</b> và <b>Collections</b> "
                 + "thông qua một từ điển slang word.</p>"
                 + "<p><b>Cấu trúc dữ liệu:</b> HashMap cho tra cứu từ khoá O(1), chỉ mục nghịch đảo "
                 + "trigram cho tìm theo định nghĩa, snapshot nhị phân để không đánh chỉ mục lại.</p>"
-                + "<p style='color:#64748B'>Dữ liệu hiện tại: " + Ui.formatInt(dictionary().size())
+                + "<p style='color:#525252'>Dữ liệu hiện tại: " + Ui.formatInt(dictionary().size())
                 + " mục từ · " + Ui.formatInt(dictionary().definitionCount()) + " định nghĩa.</p>"
                 + "</div></html>";
         Dialogs.info(this, "Giới thiệu", message);
@@ -307,7 +307,7 @@ public final class MainFrame extends JFrame implements AppHost {
                 + "<b>Quản lý dữ liệu</b><br>Thêm / sửa / xóa đều được lưu ngay vào <code>data/slang_modified.txt</code> "
                 + "và ảnh chụp chỉ mục <code>data/dictionary.bin</code>.<br><br>"
                 + "<b>Trùng từ</b><br>Khi thêm một từ đã tồn tại, chọn Ghi đè hoặc Thêm bản trùng.<br><br>"
-                + "<b>Đố vui</b><br>Mỗi câu có 4 đáp án. Đáp án đúng tô xanh, sai tô đỏ; điểm được giữ trong phiên.<br><br>"
+                + "<b>Đố vui</b><br>Mỗi câu có 4 đáp án. Đáp án đúng có viền đậm, sai có viền nét đứt; điểm được giữ trong phiên.<br><br>"
                 + "<b>Phím tắt</b><br>Ctrl+1 … Ctrl+0 mở nhanh 10 chức năng."
                 + "</div></html>";
         Dialogs.info(this, "Hướng dẫn nhanh", message);
@@ -346,6 +346,14 @@ public final class MainFrame extends JFrame implements AppHost {
         JPanel panel = screens.get(currentKey);
         if (panel instanceof DemoScreen demo) {
             demo.prepareDemo();
+        }
+    }
+
+    /** Chọn một đáp án sai cho ảnh minh hoạ trạng thái quiz. */
+    public void answerDemoQuizWrong() {
+        JPanel panel = screens.get(currentKey);
+        if (panel instanceof QuizPanel quiz) {
+            quiz.demoAnswerWrong();
         }
     }
 
@@ -420,7 +428,7 @@ public final class MainFrame extends JFrame implements AppHost {
         Graphics2D g = image.createGraphics();
         try {
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setPaint(new GradientPaint(0, 0, new Color(0x6366F1), 64, 64, new Color(0x8B5CF6)));
+            g.setPaint(new GradientPaint(0, 0, new Color(0x111111), 64, 64, new Color(0x4A4A4A)));
             g.fillRoundRect(0, 0, 64, 64, 16, 16);
             g.setColor(Color.WHITE);
             g.setFont(Theme.font(36, Font.BOLD));
@@ -448,8 +456,8 @@ public final class MainFrame extends JFrame implements AppHost {
             Graphics2D g = (Graphics2D) graphics.create();
             try {
                 g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g.setPaint(new GradientPaint(0, 0, new Color(0x6366F1), getWidth(), getHeight(),
-                        new Color(0x8B5CF6)));
+                g.setPaint(new GradientPaint(0, 0, new Color(0x111111), getWidth(), getHeight(),
+                        new Color(0x4A4A4A)));
                 g.fillRoundRect(0, 0, getWidth(), getHeight(), 13, 13);
                 g.setColor(Color.WHITE);
                 g.setFont(Theme.font(22, Font.BOLD));

@@ -30,6 +30,8 @@ public final class App {
     }
 
     public static void main(String[] args) {
+        System.setProperty("awt.useSystemAAFontSettings", "on");
+        System.setProperty("swing.aatext", "true");
         Theme.install();
         for (String arg : args) {
             if ("--smoke-test".equals(arg) || "--screenshots".equals(arg)) {
@@ -67,7 +69,7 @@ public final class App {
                             "<html><div style='width:460px'>Không khởi động được ứng dụng:<br><b>"
                                     + cause.getMessage() + "</b><br><br>"
                                     + "Hãy kiểm tra file slang.txt và quyền ghi thư mục dự án.</div></html>",
-                            "Lỗi khởi động", JOptionPane.ERROR_MESSAGE);
+                            "Lỗi khởi động", JOptionPane.PLAIN_MESSAGE);
                     System.exit(1);
                 }
             }
@@ -104,10 +106,10 @@ public final class App {
         title.setForeground(Color.WHITE);
         JLabel subtitle = new JLabel("Đang nạp dữ liệu và chỉ mục tìm kiếm…");
         subtitle.setFont(Theme.font(12, Font.PLAIN));
-        subtitle.setForeground(new Color(0x94A3B8));
+        subtitle.setForeground(new Color(0xA3A3A3));
         JLabel course = new JLabel("CSC13002 · Lập trình ứng dụng Java");
         course.setFont(Theme.font(10, Font.PLAIN));
-        course.setForeground(new Color(0x64748B));
+        course.setForeground(new Color(0x737373));
         title.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         subtitle.setAlignmentX(JLabel.LEFT_ALIGNMENT);
         course.setAlignmentX(JLabel.LEFT_ALIGNMENT);
@@ -120,8 +122,8 @@ public final class App {
         JProgressBar progress = new JProgressBar();
         progress.setIndeterminate(true);
         progress.setBorder(BorderFactory.createEmptyBorder());
-        progress.setBackground(new Color(0x1E293B));
-        progress.setForeground(Theme.ACCENT);
+        progress.setBackground(new Color(0x262626));
+        progress.setForeground(Color.WHITE);
         progress.setPreferredSize(new Dimension(360, 4));
 
         panel.add(text, BorderLayout.CENTER);

@@ -4,32 +4,35 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.Font;
 
-/** Bảng màu, font và thiết lập Look &amp; Feel dùng chung. */
+/**
+ * Bảng màu đen–trắng (grayscale) và font dùng chung.
+ * Toàn bộ giá trị màu ở đây đều có R = G = B, không dùng màu nhấn.
+ */
 public final class Theme {
 
-    public static final Color BG = new Color(0xF4F6FB);
+    public static final Color BG = new Color(0xF5F5F5);
     public static final Color CARD = Color.WHITE;
-    public static final Color SIDEBAR = new Color(0x0F172A);
-    public static final Color SIDEBAR_HOVER = new Color(0x1B2740);
-    public static final Color SIDEBAR_ACTIVE = new Color(0x233149);
-    public static final Color TEXT = new Color(0x0F172A);
-    public static final Color MUTED = new Color(0x64748B);
-    public static final Color FAINT = new Color(0x94A3B8);
-    public static final Color BORDER = new Color(0xE2E8F0);
-    public static final Color BORDER_SOFT = new Color(0xEDF1F7);
-    public static final Color ACCENT = new Color(0x4F46E5);
-    public static final Color ACCENT_DARK = new Color(0x4338CA);
-    public static final Color ACCENT_SOFT = new Color(0xEEF2FF);
-    public static final Color ACCENT_SOFT_2 = new Color(0xE0E7FF);
-    public static final Color SUCCESS = new Color(0x059669);
-    public static final Color SUCCESS_SOFT = new Color(0xECFDF5);
-    public static final Color DANGER = new Color(0xDC2626);
-    public static final Color DANGER_DARK = new Color(0xB91C1C);
-    public static final Color DANGER_SOFT = new Color(0xFEF2F2);
-    public static final Color WARNING = new Color(0xD97706);
-    public static final Color WARNING_SOFT = new Color(0xFFFBEB);
-    public static final Color HIGHLIGHT = new Color(0xFEF3C7);
-    public static final Color HIGHLIGHT_TEXT = new Color(0x92400E);
+    public static final Color SIDEBAR = new Color(0x0A0A0A);
+    public static final Color SIDEBAR_HOVER = new Color(0x1E1E1E);
+    public static final Color SIDEBAR_ACTIVE = new Color(0x2E2E2E);
+    public static final Color TEXT = new Color(0x0A0A0A);
+    public static final Color MUTED = new Color(0x525252);
+    public static final Color FAINT = new Color(0x737373);
+    public static final Color BORDER = new Color(0xD4D4D4);
+    public static final Color BORDER_SOFT = new Color(0xE5E5E5);
+    public static final Color ACCENT = new Color(0x111111);
+    public static final Color ACCENT_DARK = new Color(0x000000);
+    public static final Color ACCENT_SOFT = new Color(0xF0F0F0);
+    public static final Color ACCENT_SOFT_2 = new Color(0xE0E0E0);
+    public static final Color SUCCESS = new Color(0x111111);
+    public static final Color SUCCESS_SOFT = new Color(0xE8E8E8);
+    public static final Color DANGER = new Color(0x111111);
+    public static final Color DANGER_DARK = new Color(0x333333);
+    public static final Color DANGER_SOFT = new Color(0xF0F0F0);
+    public static final Color WARNING = new Color(0x333333);
+    public static final Color WARNING_SOFT = new Color(0xEDEDED);
+    public static final Color HIGHLIGHT = new Color(0xD4D4D4);
+    public static final Color HIGHLIGHT_TEXT = new Color(0x000000);
 
     private static final String FONT_FAMILY = "Segoe UI";
 
@@ -64,9 +67,33 @@ public final class Theme {
         UIManager.put("ToolTip.font", font(12, Font.PLAIN));
         UIManager.put("List.font", font(13, Font.PLAIN));
         UIManager.put("ComboBox.font", font(13, Font.PLAIN));
+
+        // Giữ toàn bộ component chuẩn của LAF cũng ở thang xám.
+        UIManager.put("Panel.background", BG);
+        UIManager.put("OptionPane.background", CARD);
+        UIManager.put("OptionPane.messageForeground", TEXT);
+        UIManager.put("Button.background", ACCENT_SOFT);
+        UIManager.put("Button.foreground", TEXT);
+        UIManager.put("Button.select", ACCENT_SOFT_2);
+        UIManager.put("Button.focus", new Color(0x8A8A8A));
+        UIManager.put("MenuBar.background", CARD);
+        UIManager.put("MenuBar.foreground", TEXT);
+        UIManager.put("Menu.background", CARD);
+        UIManager.put("MenuItem.background", CARD);
+        UIManager.put("Menu.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("Menu.selectionForeground", TEXT);
+        UIManager.put("MenuItem.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("MenuItem.selectionForeground", TEXT);
+        UIManager.put("Table.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("Table.selectionForeground", TEXT);
+        UIManager.put("TextField.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("TextField.selectionForeground", TEXT);
+        UIManager.put("TextArea.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("TextArea.selectionForeground", TEXT);
+        UIManager.put("List.selectionBackground", ACCENT_SOFT_2);
+        UIManager.put("List.selectionForeground", TEXT);
         UIManager.put("ScrollPane.background", BG);
         UIManager.put("Viewport.background", CARD);
-        UIManager.put("MenuBar.background", CARD);
         UIManager.put("MenuBar.borderColor", BORDER);
         UIManager.put("PopupMenu.background", CARD);
     }

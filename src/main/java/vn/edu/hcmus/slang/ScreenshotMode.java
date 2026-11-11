@@ -22,6 +22,8 @@ public final class ScreenshotMode {
     }
 
     public static void run() {
+        System.setProperty("awt.useSystemAAFontSettings", "on");
+        System.setProperty("swing.aatext", "true");
         Theme.install();
         try {
             BootData data = App.bootstrap();
@@ -66,8 +68,34 @@ public final class ScreenshotMode {
                 System.out.println("[Screenshot] " + file);
             }
 
+            // Ảnh bổ sung: trạng thái đã trả lời sai (đáp án đúng viền đậm,
+            // đáp án chọn sai viền nét đứt) — không dùng màu.
+            SwingUtilities.invokeAndWait(() -> {
+                frame.showPanel(MainFrame.QUIZ_WORD);
+                frame.prepareDemo();
+                frame.answerDemoQuizWrong();
+                frame.validate();
+                frame.repaint();
+            });
+            Thread.sleep(300);
+            Path answeredWord = output.resolve("10b-quiz-word-answered.png");
+            SwingUtilities.invokeAndWait(() -> capture(frame, answeredWord));
+            System.out.println("[Screenshot] " + answeredWord);
+
+            SwingUtilities.invokeAndWait(() -> {
+                frame.showPanel(MainFrame.QUIZ_DEFINITION);
+                frame.prepareDemo();
+                frame.answerDemoQuizWrong();
+                frame.validate();
+                frame.repaint();
+            });
+            Thread.sleep(300);
+            Path answeredDefinition = output.resolve("11b-quiz-definition-answered.png");
+            SwingUtilities.invokeAndWait(() -> capture(frame, answeredDefinition));
+            System.out.println("[Screenshot] " + answeredDefinition);
+
             SwingUtilities.invokeAndWait(frame::dispose);
-            System.out.println("SMOKE OK: 11 màn hình đã mở và chụp ảnh thành công.");
+            System.out.println("SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.");
             System.exit(0);
         } catch (Throwable ex) {
             ex.printStackTrace();
@@ -79,15 +107,29 @@ public final class ScreenshotMode {
     private static void capture(MainFrame frame, Path file) {
         try {
             javax.swing.JRootPane root = frame.getRootPane();
-            BufferedImage image = new BufferedImage(root.getWidth(), root.getHeight(),
+            BufferedImage color = new BufferedImage(root.getWidth(), root.getHeight(),
                     BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics = image.createGraphics();
+            Graphics2D graphics = color.createGraphics();
             try {
                 root.paint(graphics);
             } finally {
                 graphics.dispose();
             }
-            ImageIO.write(image, "png", file.toFile());
+
+            // Ảnh báo cáo chỉ dùng thang xám; loại bỏ fringe màu của ClearType.
+            BufferedImage gray = new BufferedImage(color.getWidth(), color.getHeight(),
+                    BufferedImage.TYPE_INT_RGB);
+            for (int y = 0; y < color.getHeight(); y++) {
+                for (int x = 0; x < color.getWidth(); x++) {
+                    int rgb = color.getRGB(x, y);
+                    int r = (rgb >> 16) & 0xFF;
+                    int g = (rgb >> 8) & 0xFF;
+                    int b = rgb & 0xFF;
+                    int luminance = (r * 299 + g * 587 + b * 114) / 1000;
+                    gray.setRGB(x, y, (luminance << 16) | (luminance << 8) | luminance);
+                }
+            }
+            ImageIO.write(gray, "png", file.toFile());
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

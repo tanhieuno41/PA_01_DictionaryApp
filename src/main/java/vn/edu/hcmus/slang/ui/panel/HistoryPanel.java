@@ -76,7 +76,7 @@ public final class HistoryPanel extends JPanel implements Refreshable, DemoScree
         }
         boolean confirmed = vn.edu.hcmus.slang.ui.Dialogs.confirm(this, "Xóa lịch sử",
                 "<html><div style='width:380px'>Xóa toàn bộ lịch sử tra cứu?<br><br>"
-                        + "<span style='color:#64748B'>Thao tác này không ảnh hưởng tới dữ liệu slang word.</span>"
+                        + "<span style='color:#525252'>Thao tác này không ảnh hưởng tới dữ liệu slang word.</span>"
                         + "</div></html>", "Xóa lịch sử");
         if (!confirmed) {
             return;

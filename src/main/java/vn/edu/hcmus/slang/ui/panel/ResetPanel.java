@@ -92,7 +92,7 @@ public final class ResetPanel extends JPanel implements Refreshable, DemoScreen 
     }
 
     private JPanel statCard(String title, JLabel value) {
-        RoundedPanel panel = new RoundedPanel(new java.awt.Color(0xF8FAFC), 12);
+        RoundedPanel panel = new RoundedPanel(new java.awt.Color(0xFAFAFA), 12);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(new EmptyBorder(12, 16, 12, 16));
         JLabel titleLabel = Ui.label(title, 10, Font.BOLD, Theme.FAINT);

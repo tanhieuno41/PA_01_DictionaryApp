@@ -173,7 +173,7 @@ public final class DefinitionSearchPanel extends JPanel implements Refreshable, 
             setFont(Theme.font(13, Font.PLAIN));
             setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
             setBackground(isSelected ? Theme.ACCENT_SOFT
-                    : (row % 2 == 0 ? Theme.CARD : new Color(0xFAFBFD)));
+                    : (row % 2 == 0 ? Theme.CARD : new Color(0xFAFAFA)));
             setForeground(Theme.TEXT);
             Slang slang = model.getSlangAt(row);
             setToolTipText(slang == null ? null : slang.getJoinedDefinitions());

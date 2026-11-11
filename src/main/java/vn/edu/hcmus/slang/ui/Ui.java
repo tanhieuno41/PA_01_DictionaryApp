@@ -150,7 +150,7 @@ public final class Ui {
         header.setReorderingAllowed(false);
         header.setPreferredSize(new Dimension(0, 34));
         header.setDefaultRenderer(new HeaderRenderer());
-        header.setBackground(new Color(0xF8FAFC));
+        header.setBackground(new Color(0xF7F7F7));
         header.setForeground(Theme.MUTED);
     }
 
@@ -220,7 +220,7 @@ public final class Ui {
                 break;
             }
             out.append(TextNormalizer.escapeHtml(text.substring(index, found)));
-            out.append("<span style='background-color:#FEF3C7;color:#92400E;'>");
+            out.append("<span style='background-color:#E5E5E5;color:#000000;'>");
             out.append(TextNormalizer.escapeHtml(text.substring(found, found + keyword.length())));
             out.append("</span>");
             index = found + keyword.length();
@@ -246,7 +246,7 @@ public final class Ui {
             if (isSelected) {
                 setBackground(Theme.ACCENT_SOFT);
             } else {
-                setBackground(row % 2 == 0 ? Theme.CARD : new Color(0xFAFBFD));
+                setBackground(row % 2 == 0 ? Theme.CARD : new Color(0xFAFAFA));
             }
             setForeground(Theme.TEXT);
             setToolTipText(value == null ? null : value.toString());
@@ -260,7 +260,7 @@ public final class Ui {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                        boolean hasFocus, int row, int column) {
             super.getTableCellRendererComponent(table, value, isSelected, false, row, column);
-            setBackground(new Color(0xF8FAFC));
+            setBackground(new Color(0xF7F7F7));
             setForeground(Theme.MUTED);
             setFont(Theme.font(11, Font.BOLD));
             setBorder(BorderFactory.createCompoundBorder(

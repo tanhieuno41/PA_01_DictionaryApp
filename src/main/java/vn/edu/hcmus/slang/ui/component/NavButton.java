@@ -29,7 +29,7 @@ public final class NavButton extends JButton {
         setBorderPainted(false);
         setFocusPainted(false);
         setBorder(new EmptyBorder(0, 20, 0, 12));
-        setForeground(new Color(0xCBD5E1));
+        setForeground(new Color(0xC7C7C7));
         setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         setPreferredSize(new Dimension(220, 38));
         addMouseListener(new MouseAdapter() {
@@ -49,7 +49,7 @@ public final class NavButton extends JButton {
 
     public void setActive(boolean active) {
         this.active = active;
-        setForeground(active ? Color.WHITE : new Color(0xCBD5E1));
+        setForeground(active ? Color.WHITE : new Color(0xC7C7C7));
         setFont(Theme.font(13, active ? Font.BOLD : Font.PLAIN));
         repaint();
     }
@@ -71,7 +71,7 @@ public final class NavButton extends JButton {
             if (active) {
                 g.setColor(Theme.SIDEBAR_ACTIVE);
                 g.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
-                g.setColor(Theme.ACCENT);
+                g.setColor(Color.WHITE);
                 g.fillRoundRect(0, 9, 3, getHeight() - 18, 3, 3);
             } else if (hovered) {
                 g.setColor(Theme.SIDEBAR_HOVER);

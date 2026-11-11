@@ -81,23 +81,24 @@ public final class FlatButton extends JButton {
             case SECONDARY -> {
                 background = Theme.ACCENT_SOFT;
                 hoverBackground = Theme.ACCENT_SOFT_2;
-                foreground = new Color(0x3730A3);
+                foreground = Theme.TEXT;
             }
             case DANGER -> {
-                background = Theme.DANGER;
-                hoverBackground = Theme.DANGER_DARK;
-                foreground = Color.WHITE;
+                background = Color.WHITE;
+                hoverBackground = new Color(0xE5E5E5);
+                foreground = Theme.TEXT;
+                outline = Theme.TEXT;
             }
             case GHOST -> {
-                background = new Color(0xFFFFFF);
-                hoverBackground = new Color(0xF1F5F9);
-                foreground = new Color(0x334155);
+                background = Color.WHITE;
+                hoverBackground = new Color(0xF5F5F5);
+                foreground = Theme.TEXT;
                 outline = Theme.BORDER;
             }
             case LIGHT -> {
                 background = Color.WHITE;
-                hoverBackground = new Color(0xF1F5F9);
-                foreground = Theme.ACCENT;
+                hoverBackground = new Color(0xF5F5F5);
+                foreground = Theme.TEXT;
             }
         }
         setForeground(foreground);
@@ -122,8 +123,8 @@ public final class FlatButton extends JButton {
             Color fill;
             Color text;
             if (!isEnabled()) {
-                fill = new Color(0xE2E8F0);
-                text = new Color(0x94A3B8);
+                fill = new Color(0xE5E5E5);
+                text = new Color(0x8A8A8A);
             } else {
                 fill = hovered ? hoverBackground : background;
                 text = foreground;
@@ -131,7 +132,7 @@ public final class FlatButton extends JButton {
             g.setColor(fill);
             g.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);
             if (outline != null) {
-                g.setColor(outline);
+                g.setColor(isEnabled() ? outline : Theme.BORDER);
                 g.drawRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 12, 12);
             }
             if (isFocusOwner()) {
