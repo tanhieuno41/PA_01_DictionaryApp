@@ -1,0 +1,124 @@
+============================================================
+ SLANG DICTIONARY - AUTOMATED TEST SUITE
+============================================================
+
+1. Parser & dataset
+  [PASS] dataset có 7.656 mục từ
+  [PASS] dataset có 8.959 định nghĩa
+  [PASS] không có mục từ rỗng
+  [PASS] đọc được dòng định nghĩa nối tiếp (AMA)
+  [PASS] chuẩn hoá khoá từ
+
+2. Search by slang word
+  [PASS] tìm thấy BOMB
+  [PASS] BOMB có 2 định nghĩa
+  [PASS] tìm không phân biệt hoa thường
+  [PASS] trim + mixed case
+  [PASS] không tìm thấy từ không tồn tại
+  [PASS] gợi ý theo prefix
+  [PASS] tra cứu từ khoá rỗng trả về rỗng
+
+3. Search by definition
+  [PASS] definition search khớp brute-force: 'money'
+  [PASS] mọi kết quả đều chứa keyword: 'money'
+  [PASS] thời gian tìm 'money' < 1000ms
+  [PASS] definition search khớp brute-force: 'go'
+  [PASS] mọi kết quả đều chứa keyword: 'go'
+  [PASS] thời gian tìm 'go' < 1000ms
+  [PASS] definition search khớp brute-force: 'the'
+  [PASS] mọi kết quả đều chứa keyword: 'the'
+  [PASS] thời gian tìm 'the' < 1000ms
+  [PASS] definition search khớp brute-force: 'has money'
+  [PASS] mọi kết quả đều chứa keyword: 'has money'
+  [PASS] thời gian tìm 'has money' < 1000ms
+  [PASS] definition search khớp brute-force: 'friend'
+  [PASS] mọi kết quả đều chứa keyword: 'friend'
+  [PASS] thời gian tìm 'friend' < 1000ms
+  [PASS] definition search khớp brute-force: 'zzzznotfound'
+  [PASS] mọi kết quả đều chứa keyword: 'zzzznotfound'
+  [PASS] thời gian tìm 'zzzznotfound' < 1000ms
+  [PASS] không tìm thấy định nghĩa trả về list rỗng
+
+4. Add / overwrite / edit / delete
+  [PASS] add tăng số mục
+  [PASS] add tìm thấy ngay
+  [PASS] add lưu nhiều định nghĩa
+  [PASS] cho phép thêm bản trùng
+  [PASS] overwrite thành công
+  [PASS] overwrite thay định nghĩa
+  [PASS] edit thành công
+  [PASS] edit đổi khoá cũ
+  [PASS] edit tìm thấy khoá mới
+  [PASS] delete thành công
+  [PASS] delete giảm số mục
+  [PASS] chỉ mục nhất quán sau thao tác
+  [PASS] từ rỗng bị từ chối
+
+5. Persistence & snapshot fallback
+  [PASS] save tạo file working
+  [PASS] save tạo snapshot
+  [PASS] snapshot có dữ liệu
+  [PASS] lần nạp sau dùng snapshot, không index lại
+  [PASS] dữ liệu sau khi nạp khớp
+  [PASS] tra cứu từ khoá sau khi nạp
+  [PASS] tra cứu định nghĩa sau khi nạp
+  [PASS] snapshot hỏng được rebuild
+  [PASS] rebuild giữ đúng dữ liệu
+  [PASS] phát hiện snapshot cũ
+  [PASS] nạp dữ liệu mới sau khi file đổi
+  [PASS] file text lưu đúng header
+
+6. Reset to original data
+  [PASS] reset: có file modified sau khi sửa
+  [PASS] reset: dữ liệu tạm tìm thấy
+  [PASS] reset: số mục trở về gốc
+  [PASS] reset: từ tạm biến mất
+  [PASS] reset: xoá file modified
+  [PASS] reset: lần nạp sau dùng snapshot gốc
+  [PASS] reset: dữ liệu gốc được giữ
+
+7. History persistence
+  [PASS] history bắt đầu rỗng
+  [PASS] history ghi 3 mục
+  [PASS] history mới nhất ở đầu
+  [PASS] history giữ loại tra cứu
+  [PASS] history đọc lại từ file
+  [PASS] history giữ đúng thứ tự
+  [PASS] history giới hạn 200 mục
+  [PASS] history bỏ mục cũ nhất
+  [PASS] history clear
+  [PASS] history clear ghi xuống file
+
+8. Quiz generation
+  [PASS] 200 câu word→nghĩa có 4 đáp án duy nhất và đúng
+  [PASS] 200 câu nghĩa→word có 4 đáp án duy nhất và đúng
+
+9. Performance with 100,000 slang words
+  · Đang tạo 100.000 slang word...
+    generate = 345 ms
+    build dictionary + trigram index = 289 ms
+  [PASS] 100k: nạp đủ 100.000 mục
+  [PASS] 100k: xây chỉ mục < 5s
+    200 exact searches = 0 ms (avg 0.0 ms)
+  [PASS] 100k: 200 tra cứu chính xác < 1s
+    def 'money' = 600 kết quả / 1 ms
+  [PASS] 100k: definition search 'money' < 1s
+    def 'go' = 5161 kết quả / 20 ms
+  [PASS] 100k: definition search 'go' < 1s
+    def 'the' = 7545 kết quả / 7 ms
+  [PASS] 100k: definition search 'the' < 1s
+    def 'has money' = 14 kết quả / 0 ms
+  [PASS] 100k: definition search 'has money' < 1s
+    def 'zzzznotfound' = 0 kết quả / 0 ms
+  [PASS] 100k: definition search 'zzzznotfound' < 1s
+    save text + snapshot = 395 ms, snapshot=14 MB
+  [PASS] 100k: lưu snapshot thành công
+    load snapshot = 560 ms (loadedIndex=true)
+  [PASS] 100k: lần chạy sau nạp chỉ mục sẵn, không rebuild
+  [PASS] 100k: nạp snapshot < 1.5s
+    def 'money' sau khi nạp = 600 kết quả / 1 ms
+  [PASS] 100k: tìm kiếm sau khi nạp < 1s
+  [PASS] 100k: kết quả sau nạp khớp
+------------------------------------------------------------
+ KẾT QUẢ: 88 passed, 0 failed
+============================================================
