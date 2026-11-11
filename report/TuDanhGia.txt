@@ -1,0 +1,75 @@
+﻿ĐỒ ÁN #1 – SLANG WORD
+Môn: CSC13002 – Lập trình ứng dụng Java
+Họ và tên: ....................................................
+MSSV: ........................................................
+Lớp: .........................................................
+GV phụ trách: Nguyễn Văn Khiết (LT) – Nguyễn Đức Huy (TG) – Hồ Tuấn Thanh (TH)
+
+Link video YouTube: ..........................................
+Tỷ lệ tham khảo: 0% (chỉ dùng JDK chuẩn; dữ liệu slang.txt do đề cung cấp;
+không copy mã nguồn từ internet hoặc từ người khác)
+
+======================================================================
+TỰ ĐÁNH GIÁ THEO TỪNG CHỨC NĂNG (thang 100)
+======================================================================
+
+STT  Chức năng                                              Điểm    Minh chứng
+---  ------------------------------------------------------  ------  ------------------------------
+ 1   Tìm kiếm theo slang word                                10/10   report/screens/02-search-word.png
+                                                                     AllTests: Search by slang word
+ 2   Tìm kiếm theo definition (hiển thị tất cả kết quả)      10/10   report/screens/03-search-definition.png
+                                                                     AllTests: Search by definition
+ 3   Hiển thị lịch sử các slang word đã tìm kiếm             10/10   report/screens/04-history.png
+                                                                     AllTests: History persistence
+ 4   Thêm slang word mới, xử lý trùng (ghi đè / bản trùng)    10/10   report/screens/05-add.png
+                                                                     AllTests: Add / overwrite
+ 5   Chỉnh sửa slang word                                     10/10   report/screens/06-edit.png
+                                                                     AllTests: Edit
+ 6   Xóa slang word, có xác nhận                              10/10   report/screens/07-delete.png
+                                                                     AllTests: Delete + confirm UI
+ 7   Reset danh sách slang word gốc                           10/10   report/screens/08-reset.png
+                                                                     AllTests: Reset to original data
+ 8   Random 1 slang word (On this day)                        10/10   report/screens/09-random.png
+                                                                     Giao diện RandomPanel
+ 9   Đố vui: random slang word + 4 đáp án định nghĩa          10/10   report/screens/10-quiz-word.png
+                                                                     AllTests: Quiz generation (200 câu)
+10   Đố vui: random definition + 4 đáp án slang word          10/10   report/screens/11-quiz-definition.png
+                                                                     AllTests: Quiz generation (200 câu)
+---  ------------------------------------------------------  ------  ------------------------------
+     TỔNG                                                     100/100
+
+Không tự trừ điểm chức năng nào:
+- Tất cả thao tác tìm kiếm đều dưới 1 giây (đã đo với 100.000 slang word).
+- Giao diện có menu, sidebar, phím tắt, trạng thái, thông báo lỗi và xác nhận rõ ràng.
+
+======================================================================
+CÁC YÊU CẦU CHUNG
+======================================================================
+[x] Dùng Java IO, OOP, Generic, Collections.
+[x] Có menu chọn chức năng (menu bar + sidebar).
+[x] Dữ liệu được nạp vào HashMap + chỉ mục nghịch đảo trigram; lưu snapshot nhị phân
+    để lần chạy sau không phải đánh chỉ mục lại.
+[x] Lưu danh sách sau add / edit / delete (data/slang_modified.txt) và snapshot
+    (data/dictionary.bin).
+[x] Tìm kiếm dưới 1 giây với 100.000 slang word (đo thực tế: 0–20 ms).
+[x] Nộp kèm source code, file jar, file dữ liệu, ảnh chụp màn hình, file txt tự đánh giá
+    và link video.
+[ ] Ảnh chụp commit: cần chụp từ GitHub/Bitbucket/GitLab sau khi push repo.
+[ ] Link video YouTube: cần dán link sau khi quay theo report/VIDEO_SCRIPT.md.
+
+Ghi chú về commit:
+- Source code được phát triển theo từng bước chức năng, mỗi bước là một commit thực tế.
+- Trước khi nộp, kiểm tra repo có tối thiểu 10 commit và chụp lại lịch sử commit.
+- Không chỉnh sửa ngày commit giả tạo; hãy tiếp tục commit các thay đổi thực tế nếu cần.
+
+======================================================================
+KẾT QUẢ KIỂM THỬ
+======================================================================
+- 88/88 kiểm tra đạt (xem report/test-results.txt).
+- 11/11 màn hình mở thành công và được chụp ảnh tự động (xem report/screens).
+- Benchmark 100.000 slang word:
+    + xây chỉ mục: ~300 ms
+    + tra cứu chính xác: < 1 ms cho 200 lần
+    + tìm định nghĩa: 0–20 ms
+    + nạp snapshot lần sau: ~560 ms, không rebuild
+
