@@ -1,10 +1,12 @@
-﻿# Kế hoạch và kết quả kiểm thử
+# Kế hoạch và kết quả kiểm thử
 
 ## 1. Môi trường
 
 - Windows (PowerShell), JDK 23.0.2 (`javac --release 17`).
 - Không dùng thư viện kiểm thử ngoài; bộ test tự viết `AllTests`.
-- Dữ liệu gốc: `slang.txt` – 7.656 mục từ, 8.959 định nghĩa.
+- Dữ liệu gốc: `slang.txt` – 7.656 mục từ, 8.959 định nghĩa (giữ nguyên để đối chiếu).
+- Dữ liệu chuẩn: `slang_clean.txt` – 7.638 mục từ, 8.941 định nghĩa (ứng dụng sử dụng).
+- Chi tiết quét lỗi dữ liệu: `report/SLANG_ERRORS_REPORT.md` và `report/slang_cleanup_lines.csv`.
 
 ## 2. Cách chạy
 
@@ -34,12 +36,12 @@ cơ chế fallback rebuild; cảnh báo của `DictionaryStore` được test ha
 
 | Nhóm | Nội dung | Kết quả |
 |------|----------|---------|
-| 1 | Parser, dữ liệu gốc, dòng định nghĩa nối tiếp | 5/5 |
+| 1 | Parser, dữ liệu chuẩn, AMA đã gộp | 5/5 |
 | 2 | Tìm theo slang word | 7/7 |
 | 3 | Tìm theo definition + đối chiếu brute-force | 20/20 |
 | 4 | Add / overwrite / duplicate / edit / delete | 13/13 |
 | 5 | Persistence, snapshot, fallback | 10/10 |
-| 6 | Reset dữ liệu gốc | 7/7 |
+| 6 | Reset dữ liệu chuẩn | 7/7 |
 | 7 | History persistence | 10/10 |
 | 8 | Quiz generation | 2/2 |
 | 9 | Hiệu năng 100.000 slang word | 14/14 |
@@ -68,14 +70,14 @@ cơ chế fallback rebuild; cảnh báo của `DictionaryStore` được test ha
 | 4 | Add + trùng | `testMutations`: add, duplicate, overwrite | 05 |
 | 5 | Edit | `testMutations`: đổi word, đổi definition | 06 |
 | 6 | Delete + confirm | `testMutations`: delete; UI dùng `Dialogs.confirmDelete` | 07 |
-| 7 | Reset | `testReset`: khôi phục 7.656 mục, xóa working file | 08 |
+| 7 | Reset | `testReset`: khôi phục 7.638 mục, xóa working file | 08 |
 | 8 | Random | `RandomPanel`; `SlangDictionary.randomEntry` | 09 |
 | 9 | Quiz word → nghĩa | `testQuiz`: 200 câu, 4 đáp án duy nhất, correctIndex | 10 |
 | 10 | Quiz nghĩa → word | `testQuiz`: 200 câu, 4 đáp án duy nhất, correctIndex | 11 |
 
 ## 5. Hiệu năng (100.000 slang word)
 
-Dữ liệu test được sinh bằng cách nhân bản dữ liệu gốc với hậu tố duy nhất, giữ nguyên
+Dữ liệu test được sinh bằng cách nhân bản dữ liệu chuẩn với hậu tố duy nhất, giữ nguyên
 độ dài định nghĩa và phân bố trigram thực tế.
 
 | Phép đo | Kết quả | Yêu cầu |
@@ -83,13 +85,13 @@ Dữ liệu test được sinh bằng cách nhân bản dữ liệu gốc với 
 | Sinh 100.000 mục | ~352 ms | – |
 | Xây dictionary + trigram index | ~300 ms | – |
 | 200 lần tra cứu chính xác | 0 ms (tổng) | < 1s mỗi lần |
-| Definition `"money"` | ~1 ms (600 kết quả) | < 1s |
-| Definition `"go"` | ~20 ms (5.161 kết quả) | < 1s |
-| Definition `"the"` | ~7 ms (7.545 kết quả) | < 1s |
+| Definition `"money"` | ~1 ms (587 kết quả) | < 1s |
+| Definition `"go"` | ~20 ms (5.152 kết quả) | < 1s |
+| Definition `"the"` | ~7 ms (7.536 kết quả) | < 1s |
 | Definition `"has money"` | ~0 ms (14 kết quả) | < 1s |
 | Definition không tồn tại | ~0 ms | < 1s |
 | Lưu text + snapshot 14 MB | ~400 ms | – |
-| Nạp snapshot lần sau | ~560 ms, `indexLoaded=true` | không rebuild |
+| Nạp snapshot lần sau | ~600 ms, `indexLoaded=true` | không rebuild |
 | Tìm kiếm sau khi nạp | ~0 ms | < 1s |
 | Bộ nhớ dùng | ~184 MB | – |
 
@@ -113,7 +115,7 @@ SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.
 - Định nghĩa không chứa keyword → list rỗng (không lỗi).
 - Snapshot hỏng (magic sai) → rebuild.
 - File text thay đổi sau khi lưu snapshot → phát hiện fingerprint lệch, rebuild.
-- Reset khi đang có dữ liệu sửa → quay về 7.656 mục gốc.
+- Reset khi đang có dữ liệu sửa → quay về 7.638 mục chuẩn.
 - History vượt 200 mục → cắt bớt mục cũ.
 - Quiz với dữ liệu trùng từ → vẫn đảm bảo 4 đáp án duy nhất.
 

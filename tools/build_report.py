@@ -424,7 +424,7 @@ def build():
                    "dễ sử dụng, dữ liệu được tổ chức hợp lý và có khả năng mở rộng. Báo cáo này "
                    "trình bày quá trình phân tích, thiết kế, cài đặt, kiểm thử và đánh giá kết quả.")
     h2(document, "1.2. Phạm vi")
-    bullet(document, "Dữ liệu đầu vào: file slang.txt do đề cung cấp, gồm 7.656 mục từ và 8.959 định nghĩa.")
+    bullet(document, "Dữ liệu đầu vào: file slang_clean.txt (đã chuẩn hoá từ slang.txt), gồm 7.638 mục từ và 8.941 định nghĩa.")
     bullet(document, "Ứng dụng desktop Java Swing, chạy offline, không cần máy chủ hay kết nối mạng.")
     bullet(document, "Hỗ trợ 10 chức năng: tra cứu theo word/definition, lịch sử, thêm, sửa, xóa, "
                      "reset, random và hai chế độ đố vui.")
@@ -454,7 +454,7 @@ def build():
         ["4", "Thêm slang word", "Kiểm tra trùng; cho chọn ghi đè, thêm bản trùng hoặc hủy."],
         ["5", "Chỉnh sửa", "Chọn đúng mục từ, sửa word/định nghĩa, lưu ngay."],
         ["6", "Xóa", "Chọn mục từ, xác nhận trước khi xóa."],
-        ["7", "Reset", "Khôi phục danh sách từ slang.txt gốc, có xác nhận."],
+        ["7", "Reset", "Khôi phục danh sách từ slang_clean.txt (bản chuẩn hoá), có xác nhận."],
         ["8", "Random", "Hiển thị một slang word ngẫu nhiên (on this day)."],
         ["9", "Đố vui word → nghĩa", "Một slang word và 4 định nghĩa; chọn đáp án, phản hồi đúng/sai."],
         ["10", "Đố vui nghĩa → word", "Một định nghĩa và 4 slang word; chọn đáp án, phản hồi đúng/sai."],
@@ -475,7 +475,7 @@ def build():
 
     h2(document, "2.3. Các luồng nghiệp vụ chính")
     h3(document, "Tra cứu")
-    numbered(document, "Chuẩn hoá từ khoá (NFKC, gộp khoảng trắng, chữ thường).")
+    numbered(document, "Chuẩn hoá từ khoá (NFC, gộp khoảng trắng, chữ thường).")
     numbered(document, "Nếu tìm theo word: tra HashMap<String, List<Slang>> để lấy tất cả bản ghi trùng tên.")
     numbered(document, "Nếu tìm theo definition: lấy giao posting list trigram, kiểm tra lại từng định nghĩa.")
     numbered(document, "Hiển thị kết quả, thời gian chạy và ghi vào lịch sử.")
@@ -517,7 +517,7 @@ def build():
         ["model.QuizQuestion", "Câu hỏi 4 đáp án, chỉ số đáp án đúng, giải thích."],
         ["data.SlangDictionary", "Quản lý kho mục từ, word index, trigram index, thao tác thêm/sửa/xóa."],
         ["data.TrigramIndex", "Xây dựng và truy vấn posting list trigram cho definition."],
-        ["data.DictionaryStore", "Đọc/ghi slang.txt, slang_modified.txt, dictionary.bin; fingerprint và fallback."],
+        ["data.DictionaryStore", "Đọc/ghi slang.txt/slang_clean.txt, slang_modified.txt, dictionary.bin; fingerprint và fallback."],
         ["service.HistoryService", "Quản lý lịch sử 200 mục, lưu/đọc data/history.txt."],
         ["service.QuizService", "Sinh câu hỏi 4 đáp án duy nhất cho hai chế độ đố vui."],
         ["ui.MainFrame", "Cửa sổ chính, menu, sidebar, điều hướng CardLayout, thanh trạng thái."],
@@ -525,7 +525,7 @@ def build():
     ], widths=[4.4, 11.2], font_size=10.2)
     h2(document, "3.3. Luồng khởi động")
     numbered(document, "App khởi tạo Look & Feel, font và các thiết lập grayscale.")
-    numbered(document, "Bootstrap xác định thư mục dự án; nếu thiếu slang.txt thì trích xuất bản đi kèm jar.")
+    numbered(document, "Bootstrap xác định thư mục dự án; nếu thiếu dữ liệu thì trích xuất slang.txt / slang_clean.txt đi kèm jar.")
     numbered(document, "DictionaryStore kiểm tra data/slang_modified.txt và data/dictionary.bin.")
     numbered(document, "Nếu fingerprint khớp: đọc snapshot, không đánh chỉ mục lại. Nếu không: parse text, "
                         "xây chỉ mục, ghi snapshot mới.")
@@ -546,13 +546,20 @@ def build():
     para(document, "Với 100.000 slang word, nếu chỉ dùng List thì mỗi lần tìm kiếm phải duyệt tuần tự, "
                    "không đáp ứng yêu cầu dưới 1 giây và còn bị giới hạn điểm theo quy định của đề. "
                    "Đồ án sử dụng thêm HashMap, LinkedHashMap, ArrayDeque và chỉ mục nghịch đảo trigram.")
+    para(document, "Dữ liệu đầu vào được kiểm tra và chuẩn hoá trước khi đưa vào ứng dụng. "
+                   "File gốc slang.txt (7.656 mục từ, 8.959 định nghĩa) được giữ nguyên để đối chiếu; "
+                   "file slang_clean.txt (7.638 mục từ, 8.941 định nghĩa) là dữ liệu chuẩn mà ứng dụng sử dụng. "
+                   "Quá trình chuẩn hoá đã sửa header, gộp 5 dòng thiếu key, xoá 15 bản ghi trùng hoàn toàn, "
+                   "gộp 3 cặp key có nghĩa khác, trim 14 key và 14 định nghĩa, chuẩn hoá 11 dòng dấu |, "
+                   "ánh xạ 2 key non-ASCII, sửa 4 định nghĩa bị cắt cụt và đổi chỗ 2 cặp sai thứ tự A–Z. "
+                   "Chi tiết theo từng dòng nằm trong report/SLANG_ERRORS_REPORT.md và file CSV đi kèm.")
     h2(document, "4.2. Chỉ mục từ khoá")
     para(document, "Mỗi mục từ có một id duy nhất; nhiều mục từ có thể trùng tên. Vì vậy cấu trúc chính là:")
     code_block(document, """LinkedHashMap<Long, Slang> byId;              // giữ thứ tự chèn
 HashMap<String, List<Slang>> byWord;          // key = word đã chuẩn hoá
 List<Slang> ordered;                          // thứ tự dùng cho posting list""")
     bullet(document, "Tra cứu chính xác trung bình O(1); danh sách kết quả vẫn giữ được các bản ghi trùng.")
-    bullet(document, "Word được chuẩn hoá bằng Unicode NFKC, gộp khoảng trắng và lowercase(Locale.ROOT).")
+    bullet(document, "Word được chuẩn hoá bằng Unicode NFC, gộp khoảng trắng và lowercase(Locale.ROOT).")
     bullet(document, "Gợi ý theo prefix duyệt các key của byWord, sắp xếp theo độ dài rồi alphabet.")
     h2(document, "4.3. Chỉ mục trigram cho định nghĩa")
     para(document, "Mỗi định nghĩa được chuẩn hoá và tách thành các trigram (3 ký tự liên tiếp). "
@@ -613,13 +620,14 @@ query(keyword):
     image(document, "05-add.png", "Hình 5.5. Form thêm slang word")
     image(document, "06-edit.png", "Hình 5.6. Chỉnh sửa mục từ đã chọn")
     image(document, "07-delete.png", "Hình 5.7. Xóa mục từ, có xác nhận trước khi thực hiện")
-    image(document, "08-reset.png", "Hình 5.8. Khôi phục danh sách gốc từ slang.txt")
+    image(document, "08-reset.png", "Hình 5.8. Khôi phục danh sách chuẩn từ slang_clean.txt")
     image(document, "09-random.png", "Hình 5.9. Slang word ngẫu nhiên (on this day)")
     image(document, "10b-quiz-word-answered.png",
           "Hình 5.10. Đố vui word → nghĩa sau khi chọn sai: đáp án đúng viền đậm, đáp án sai viền nét đứt")
     image(document, "11b-quiz-definition-answered.png",
           "Hình 5.11. Đố vui nghĩa → word sau khi chọn sai: phản hồi bằng chữ và kiểu viền")
 
+    document.add_page_break()
     h2(document, "5.2. Điều hướng và phím tắt")
     table(document, ["Phím", "Chức năng"], [
         ["Ctrl+1 … Ctrl+0", "Mở nhanh 10 chức năng"],
@@ -639,12 +647,12 @@ query(keyword):
     bullet(document, "Smoke test giao diện: mở 11 màn hình, chụp 13 ảnh trạng thái.")
     h2(document, "6.2. Kết quả kiểm thử tự động")
     table(document, ["Nhóm", "Nội dung", "Số kiểm tra"], [
-        ["1", "Parser, dữ liệu gốc, dòng định nghĩa nối tiếp", "5"],
+        ["1", "Parser, dữ liệu chuẩn, AMA đã gộp", "5"],
         ["2", "Tìm theo slang word", "7"],
         ["3", "Tìm theo definition + đối chiếu brute-force", "20"],
         ["4", "Add / overwrite / duplicate / edit / delete", "13"],
         ["5", "Persistence, snapshot, fallback", "10"],
-        ["6", "Reset dữ liệu gốc", "7"],
+        ["6", "Reset dữ liệu chuẩn", "7"],
         ["7", "History persistence", "10"],
         ["8", "Quiz generation", "2"],
         ["9", "Hiệu năng 100.000 slang word", "14"],
@@ -657,11 +665,11 @@ query(keyword):
         ["Sinh 100.000 mục", "~345 ms", "—"],
         ["Xây dictionary + trigram index", "~300 ms", "—"],
         ["200 lần tra cứu chính xác", "0 ms (tổng)", "< 1 giây mỗi lần"],
-        ["Tìm definition “money”", "~1 ms (600 kết quả)", "< 1 giây"],
-        ["Tìm definition “go”", "~20 ms (5.161 kết quả)", "< 1 giây"],
-        ["Tìm definition “the”", "~7 ms (7.545 kết quả)", "< 1 giây"],
+        ["Tìm definition “money”", "~1 ms (587 kết quả)", "< 1 giây"],
+        ["Tìm definition “go”", "~20 ms (5.152 kết quả)", "< 1 giây"],
+        ["Tìm definition “the”", "~7 ms (7.536 kết quả)", "< 1 giây"],
         ["Lưu text + snapshot 14 MB", "~400 ms", "—"],
-        ["Nạp snapshot lần sau", "~560–600 ms, indexLoaded=true", "Không rebuild"],
+        ["Nạp snapshot lần sau", "~600–650 ms, indexLoaded=true", "Không rebuild"],
         ["Tìm kiếm sau khi nạp", "0–1 ms", "< 1 giây"],
     ], widths=[5.6, 5.3, 4.6], font_size=10.2)
     para(document, "Bộ nhớ sử dụng khi test 100k khoảng 184 MB. Các phép tìm kiếm đều dưới 1 giây, đáp ứng "
@@ -676,7 +684,7 @@ query(keyword):
     bullet(document, "Từ khoá 1–2 ký tự (fallback quét tuần tự).")
     bullet(document, "Definition không chứa keyword trả về danh sách rỗng, không lỗi.")
     bullet(document, "Snapshot sai magic, snapshot cũ, file text thay đổi → rebuild đúng.")
-    bullet(document, "Reset khi có dữ liệu sửa → quay về đúng 7.656 mục gốc.")
+    bullet(document, "Reset khi có dữ liệu sửa → quay về đúng 7.638 mục chuẩn.")
     bullet(document, "History vượt 200 mục → cắt mục cũ.")
     bullet(document, "Quiz với dữ liệu trùng từ → vẫn đủ 4 đáp án duy nhất.")
     h2(document, "6.6. Hạn chế")
@@ -708,7 +716,7 @@ query(keyword):
     numbered(document, "Đề bài Đồ án #1 – Slang Word, môn CSC13002 – Lập trình ứng dụng Java (file DAMH#1.pdf).")
     numbered(document, "Java SE 17 API Specification: java.util (Collections, HashMap, ArrayDeque), "
                         "java.io, java.nio.file, javax.swing.")
-    numbered(document, "Dữ liệu slang.txt do đề bài cung cấp.")
+    numbered(document, "Dữ liệu slang.txt do đề bài cung cấp; bản chuẩn hoá là slang_clean.txt.")
     para(document, "Tỷ lệ tham khảo mã nguồn bên ngoài: 0%. Ứng dụng chỉ sử dụng JDK chuẩn, không dùng "
                    "thư viện bên thứ ba và không sao chép mã nguồn từ internet hay từ người khác.")
 

@@ -7,7 +7,7 @@
 ## Chuẩn bị
 
 - Chạy `run.bat` (hoặc `java -jar dist\SlangDictionary.jar`).
-- Mở sẵn thư mục dự án để thấy `slang.txt`, `data/`.
+- Mở sẵn thư mục dự án để thấy `slang.txt`, `slang_clean.txt`, `data/`.
 - Quay màn hình 1280×720 trở lên, font dễ đọc.
 
 ## 0:00 – 0:30 · Giới thiệu
@@ -31,7 +31,7 @@ Nói ngắn gọn:
 
 ## 1:30 – 2:10 · Tổng quan + menu
 
-- Chỉ dashboard: 7.656 mục, 7.636 từ duy nhất, 8.959 định nghĩa, lịch sử.
+- Chỉ dashboard: 7.638 mục, 7.638 từ duy nhất, 8.941 định nghĩa, lịch sử.
 - Mở menu **Chức năng** để thấy đủ 10 mục; nhấn Ctrl+1 để mở nhanh.
 
 ## 2:10 – 2:40 · Chức năng 1 + 2
@@ -55,8 +55,8 @@ Nói ngắn gọn:
 
 ## 4:10 – 4:40 · Chức năng 7
 
-- **Khôi phục dữ liệu gốc** → đọc cảnh báo → bấm Khôi phục → xác nhận.
-- Chỉ số quay về 7.656; thử tìm `GHOSTING` → không còn.
+- **Khôi phục dữ liệu chuẩn** → đọc cảnh báo → bấm Khôi phục → xác nhận.
+- Chỉ số quay về 7.638; thử tìm `GHOSTING` → không còn.
 
 ## 4:40 – 5:20 · Chức năng 8, 9, 10
 

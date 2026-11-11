@@ -1,4 +1,4 @@
-﻿ĐỒ ÁN #1 – SLANG WORD
+ĐỒ ÁN #1 – SLANG WORD
 Môn: CSC13002 – Lập trình ứng dụng Java
 Họ và tên: ....................................................
 MSSV: ........................................................
@@ -8,6 +8,10 @@ GV phụ trách: Nguyễn Văn Khiết (LT) – Nguyễn Đức Huy (TG) – H�
 Link video YouTube: ..........................................
 Tỷ lệ tham khảo: 0% (chỉ dùng JDK chuẩn; dữ liệu slang.txt do đề cung cấp;
 không copy mã nguồn từ internet hoặc từ người khác)
+
+Dữ liệu: slang.txt gốc 7.656 mục / 8.959 nghĩa (giữ nguyên để đối chiếu);
+slang_clean.txt 7.638 mục / 8.941 nghĩa (đã chuẩn hoá, ứng dụng sử dụng).
+Chi tiết lỗi: report/SLANG_ERRORS_REPORT.md và report/slang_cleanup_lines.csv.
 
 ======================================================================
 TỰ ĐÁNH GIÁ THEO TỪNG CHỨC NĂNG (thang 100)
@@ -27,7 +31,7 @@ STT  Chức năng                                              Điểm    Minh c
                                                                      AllTests: Edit
  6   Xóa slang word, có xác nhận                              10/10   report/screens/07-delete.png
                                                                      AllTests: Delete + confirm UI
- 7   Reset danh sách slang word gốc                           10/10   report/screens/08-reset.png
+ 7   Reset danh sách slang word chuẩn                           10/10   report/screens/08-reset.png
                                                                      AllTests: Reset to original data
  8   Random 1 slang word (On this day)                        10/10   report/screens/09-random.png
                                                                      Giao diện RandomPanel
@@ -67,10 +71,10 @@ Ghi chú về commit:
 KẾT QUẢ KIỂM THỬ
 ======================================================================
 - 88/88 kiểm tra đạt (xem report/test-results.txt).
-- 11/11 màn hình mở thành công và được chụp ảnh tự động (xem report/screens).
+- 11 màn hình, 13 ảnh mở/chụp thành công (xem report/screens); ảnh grayscale, 0 pixel màu.
 - Benchmark 100.000 slang word:
     + xây chỉ mục: ~300 ms
     + tra cứu chính xác: < 1 ms cho 200 lần
     + tìm định nghĩa: 0–20 ms
-    + nạp snapshot lần sau: ~560 ms, không rebuild
+    + nạp snapshot lần sau: ~600 ms, không rebuild
 

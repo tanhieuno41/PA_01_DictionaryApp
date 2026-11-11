@@ -14,7 +14,7 @@
 | 4 | Thêm slang word | Nhập word + định nghĩa. Nếu trùng, hộp thoại cho chọn **Ghi đè**, **Thêm bản trùng** hoặc **Hủy**. |
 | 5 | Chỉnh sửa | Tìm từ, chọn đúng mục từ, sửa word/định nghĩa và lưu. |
 | 6 | Xóa | Tìm từ, chọn đúng mục từ; luôn hỏi xác nhận trước khi xóa. |
-| 7 | Reset dữ liệu gốc | Khôi phục danh sách từ `slang.txt`, có xác nhận. |
+| 7 | Reset dữ liệu chuẩn | Khôi phục danh sách từ `slang_clean.txt` (đã chuẩn hoá từ `slang.txt`), có xác nhận. |
 | 8 | Random slang word | Slang word “on this day”, có nút đổi từ khác. |
 | 9 | Đố vui: word → nghĩa | Hiển thị 1 slang word + 4 định nghĩa; chọn đáp án, đánh dấu đúng/sai bằng viền và tính điểm. |
 | 10 | Đố vui: nghĩa → word | Hiển thị 1 định nghĩa + 4 slang word; chọn đáp án, đánh dấu đúng/sai bằng viền và tính điểm. |
@@ -39,15 +39,18 @@ Tất cả cấu trúc generic đều dùng tham số kiểu (`Map<String, List<
 
 | File | Vai trò |
 |------|---------|
-| `slang.txt` | Dữ liệu gốc do đề cung cấp (7.656 mục từ, 8.959 định nghĩa). Không bị sửa. |
+| `slang.txt` | Dữ liệu gốc do đề cung cấp (7.656 mục từ, 8.959 định nghĩa). **Không bị sửa**, dùng để đối chiếu. |
+| `slang_clean.txt` | Bản đã chuẩn hoá (7.638 mục từ, 8.941 định nghĩa); ứng dụng dùng file này. |
 | `data/slang_modified.txt` | Bản làm việc sau add/edit/delete, cùng định dạng text để có thể đọc/mở bằng editor. |
 | `data/dictionary.bin` | **Snapshot nhị phân** chứa danh sách mục từ, chỉ mục từ khoá và toàn bộ posting list trigram. |
 | `data/history.txt` | Lịch sử tra cứu. |
 
+Chi tiết từng lỗi trong dữ liệu gốc: [`report/SLANG_ERRORS_REPORT.md`](report/SLANG_ERRORS_REPORT.md) và [`report/slang_cleanup_lines.csv`](report/slang_cleanup_lines.csv).
+
 - Snapshot lưu kèm **CRC32 + kích thước + tên file nguồn**. Khi khởi động, nếu fingerprint khớp, ứng dụng đọc thẳng snapshot và **không đánh chỉ mục lại**.
 - Nếu snapshot cũ/hỏng/không khớp, chương trình tự rebuild từ file text và ghi snapshot mới.
 - Sau mỗi thao tác add/edit/delete/reset, cả file text và snapshot đều được cập nhật (ghi atomic qua file tạm).
-- Chức năng reset xóa `slang_modified.txt`, nạp lại `slang.txt` và tạo snapshot tương ứng.
+- Chức năng reset xóa `slang_modified.txt`, nạp lại `slang_clean.txt` và tạo snapshot tương ứng.
 
 ## 3. Cài đặt và chạy
 
@@ -69,7 +72,7 @@ java -jar dist\SlangDictionary.jar
 ```
 
 - Lần chạy đầu tiên sẽ tạo thư mục `data/` và snapshot chỉ mục.
-- Nếu chạy jar ở thư mục khác, ứng dụng tự trích xuất `slang.txt` đi kèm trong jar.
+- Nếu chạy jar ở thư mục khác, ứng dụng tự trích xuất `slang.txt` và `slang_clean.txt` đi kèm trong jar.
 - Có thể mở project bằng IDE (Eclipse/IntelliJ/NetBeans) hoặc dùng `pom.xml` có sẵn.
 
 ### Chế độ kiểm thử giao diện
@@ -84,7 +87,7 @@ Mở lần lượt 11 màn hình, chụp 13 ảnh (thêm 2 trạng thái quiz đ
 
 Chạy `test.bat` (hoặc `AllTests`) cho kết quả **88/88 kiểm tra đạt**:
 
-- Parser và dữ liệu gốc (7.656 mục / 8.959 định nghĩa, dòng định nghĩa nối tiếp).
+- Parser và dữ liệu chuẩn (7.638 mục / 8.941 định nghĩa; raw 7.656 / 8.959 để đối chiếu, dòng định nghĩa nối tiếp).
 - Tìm theo word: chính xác, không phân biệt hoa thường, trim, gợi ý prefix.
 - Tìm theo definition: đối chiếu **brute-force** trên 6 từ khoá, mọi kết quả đều chứa keyword.
 - Add / overwrite / duplicate / edit / delete / validate index.
@@ -97,11 +100,11 @@ Chạy `test.bat` (hoặc `AllTests`) cho kết quả **88/88 kiểm tra đạt*
 |---------|---------|
 | Xây dictionary + trigram index | ~300 ms |
 | 200 lần tra cứu chính xác | < 1 ms (tổng) |
-| Tìm definition `"money"` | ~1 ms (600 kết quả) |
-| Tìm definition `"go"` | ~20 ms (5.161 kết quả) |
-| Tìm definition `"the"` | ~7 ms (7.545 kết quả) |
+| Tìm definition `"money"` | ~1 ms (587 kết quả) |
+| Tìm definition `"go"` | ~20 ms (5.152 kết quả) |
+| Tìm definition `"the"` | ~7 ms (7.536 kết quả) |
 | Lưu text + snapshot (14 MB) | ~400 ms |
-| Nạp snapshot lần sau | ~560 ms, `indexLoaded=true` |
+| Nạp snapshot lần sau | ~600 ms, `indexLoaded=true` |
 | Bộ nhớ dùng khi test 100k | ~184 MB |
 
 Tất cả đều **dưới 1 giây** cho thao tác tìm kiếm, đáp ứng yêu cầu của đề. Chi tiết xem [`report/test-results.txt`](report/test-results.txt) và [`report/KIEM_THU.md`](report/KIEM_THU.md).
@@ -123,7 +126,8 @@ Báo cáo đầy đủ: [`report/BAO_CAO_DO_AN.docx`](report/BAO_CAO_DO_AN.docx)
 
 ```text
 PA_01_DictionaryApp/
-├─ slang.txt                     # dữ liệu gốc
+├─ slang.txt                     # dữ liệu gốc (không sửa)
+├─ slang_clean.txt               # dữ liệu đã chuẩn hoá (ứng dụng dùng)
 ├─ build.ps1 / test.bat / run.bat
 ├─ pom.xml
 ├─ src/main/java/vn/edu/hcmus/slang/
@@ -133,7 +137,8 @@ PA_01_DictionaryApp/
 │  ├─ service/  HistoryService, QuizService
 │  ├─ util/     TextNormalizer, Snippet
 │  └─ ui/       MainFrame, Theme, Dialogs, components, panels
-├─ src/main/resources/data/slang.txt   # bản dữ liệu đi kèm jar
+├─ src/main/resources/data/slang.txt   # raw đi kèm jar
+├─ src/main/resources/data/slang_clean.txt # dữ liệu chuẩn đi kèm jar
 ├─ src/test/java/.../AllTests.java
 ├─ report/      báo cáo docx/pdf, ảnh, kết quả test, tự đánh giá, kịch bản video
 └─ data/        sinh ra khi chạy (working file, snapshot, history)
@@ -146,7 +151,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File package.ps1 `
     -Mssv 22123456 -VideoUrl "https://youtu.be/..." -Score 100
 ```
 
-Script build lại jar, kiểm tra test, rồi tạo file `22123456_100.zip` đúng quy ước `MSSV_SoDiemTuDanhGia.zip`, gồm source, jar, dữ liệu, ảnh chụp màn hình, kết quả test, file tự đánh giá và kịch bản video.
+Script build lại jar, kiểm tra test, rồi tạo file `22123456_100.zip` đúng quy ước `MSSV_SoDiemTuDanhGia.zip`, gồm source, jar, dữ liệu (raw + cleaned), ảnh chụp màn hình, kết quả test, file tự đánh giá và kịch bản video.
 
 > **Lưu ý commit:** repo cần có tối thiểu 10 commit và ảnh chụp các lần commit trên GitHub/Bitbucket/GitLab. Hãy push repo và chụp lại lịch sử commit trước khi nộp. Ảnh lịch sử local có sẵn tại `report/commits/local-git-log.png` (chỉ là minh chứng tạm, cần thay bằng ảnh GitHub).
 
