@@ -122,4 +122,5 @@ SMOKE OK: 11 màn hình đã mở và chụp ảnh thành công.
 - Overwrite khi có nhiều bản trùng sẽ cập nhật **mục đầu tiên**; các bản trùng khác giữ nguyên. UI hiển thị danh sách bản trùng trước khi xác nhận.
 - Điểm quiz được giữ trong phiên chạy, không lưu qua các lần mở app.
 - Ảnh chụp commit và video YouTube là hai artifact cần sinh viên hoàn thiện trước khi nộp (xem `report/VIDEO_SCRIPT.md` và README).
+- Lịch sử commit local được tạo trong một phiên làm việc, nên **chưa đáp ứng yêu cầu phân bố commit nhiều ngày**. Không nên chỉnh ngày commit giả tạo; hãy tiếp tục commit các thay đổi thực tế (hoặc dùng lịch sử phát triển thật của bạn) trước deadline.
 
