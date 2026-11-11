@@ -61,7 +61,7 @@ Nói ngắn gọn:
 ## 4:40 – 5:20 · Chức năng 8, 9, 10
 
 - **Slang word mỗi ngày**: bấm “Từ ngẫu nhiên khác” vài lần.
-- **Đố vui: đoán định nghĩa**: chọn đáp án, chỉ xanh/đỏ, bấm Câu tiếp theo.
+- **Đố vui: đoán định nghĩa**: chọn đáp án, chỉ viền đậm/nét đứt cho đúng/sai, bấm Câu tiếp theo.
 - **Đố vui: đoán slang word**: làm tương tự.
 
 ## 5:20 – 6:00 · Hiệu năng + kết thúc

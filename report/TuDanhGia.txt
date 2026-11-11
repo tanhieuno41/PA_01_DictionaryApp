@@ -47,6 +47,7 @@ CÁC YÊU CẦU CHUNG
 ======================================================================
 [x] Dùng Java IO, OOP, Generic, Collections.
 [x] Có menu chọn chức năng (menu bar + sidebar).
+[x] Giao diện chỉ dùng đen–trắng (grayscale), trạng thái đúng/sai bằng viền/nét đứt.
 [x] Dữ liệu được nạp vào HashMap + chỉ mục nghịch đảo trigram; lưu snapshot nhị phân
     để lần chạy sau không phải đánh chỉ mục lại.
 [x] Lưu danh sách sau add / edit / delete (data/slang_modified.txt) và snapshot

@@ -19,7 +19,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File build.ps1
 java -cp "build/classes;build/test-classes" vn.edu.hcmus.slang.AllTests
 ```
 
-Kiểm thử giao diện (mở 11 màn hình và chụp ảnh):
+Kiểm thử giao diện (mở 11 màn hình, chụp 13 ảnh trạng thái):
 
 ```bat
 java -jar dist\SlangDictionary.jar --smoke-test
@@ -51,7 +51,7 @@ cơ chế fallback rebuild; cảnh báo của `DictionaryStore` được test ha
 | Yêu cầu | Cách đáp ứng | Minh chứng |
 |---------|--------------|------------|
 | Java IO, OOP, Collections | `DictionaryStore` đọc/ghi UTF-8, binary `DataInputStream`/`DataOutputStream`; model OOP; HashMap, LinkedHashMap, ArrayDeque, List | `src/main/java/.../data`, `service`; test nhóm 5, 7 |
-| Có menu chọn chức năng | `JMenuBar` (Hệ thống / Chức năng / Trợ giúp) + sidebar 10 chức năng | ảnh 01–11 |
+| Có menu chọn chức năng | `JMenuBar` (Hệ thống / Chức năng / Trợ giúp) + sidebar 10 chức năng | ảnh 01–11b |
 | Load dữ liệu, tìm nhanh < 1s với 100k | HashMap O(1) + trigram inverted index | test nhóm 9; bảng hiệu năng bên dưới |
 | Lưu cấu trúc đã index, lần sau không index lại | `data/dictionary.bin` + fingerprint CRC32/kích thước/tên nguồn | test nhóm 5; log `indexLoaded=true` |
 | Lưu danh sách sau add/edit/delete | `data/slang_modified.txt` + snapshot được ghi sau mỗi thao tác | test nhóm 4, 5 |
@@ -96,13 +96,14 @@ Dữ liệu test được sinh bằng cách nhân bản dữ liệu gốc với 
 ## 6. Kiểm thử giao diện
 
 `ScreenshotMode` mở cửa sổ thật, đi qua 11 màn hình, gọi dữ liệu mẫu (BOMB / money),
-chụp ảnh bằng Java2D và thoát. Kết quả:
+chụp 13 ảnh bằng Java2D và thoát. Ảnh được chuyển sang grayscale; kiểm tra bằng
+Python/Pillow cho thấy **0 pixel lệch kênh màu**. Kết quả:
 
 ```
-SMOKE OK: 11 màn hình đã mở và chụp ảnh thành công.
+SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.
 ```
 
-Ảnh: `report/screens/01-home.png` … `11-quiz-definition.png`.
+Ảnh: `report/screens/01-home.png` … `11b-quiz-definition-answered.png`.
 
 ## 7. Các trường hợp biên đã kiểm tra
 

@@ -1,6 +1,6 @@
-﻿# Slang Dictionary
+# Slang Dictionary
 
-Ứng dụng từ điển **slang word** viết bằng **Java Swing**, phục vụ đồ án **Đồ án #1 – Slang Word (CSC13002 – Lập trình ứng dụng Java)**.
+Ứng dụng từ điển **slang word** viết bằng **Java Swing**, phục vụ đồ án **Đồ án #1 – Slang Word (CSC13002 – Lập trình ứng dụng Java)**. Giao diện chỉ dùng **đen–trắng (grayscale)**: không có màu nhấn; trạng thái đúng/sai được thể hiện bằng viền đậm, nét đứt và nền xám.
 
 ![Trang tổng quan](report/screens/01-home.png)
 
@@ -16,8 +16,8 @@
 | 6 | Xóa | Tìm từ, chọn đúng mục từ; luôn hỏi xác nhận trước khi xóa. |
 | 7 | Reset dữ liệu gốc | Khôi phục danh sách từ `slang.txt`, có xác nhận. |
 | 8 | Random slang word | Slang word “on this day”, có nút đổi từ khác. |
-| 9 | Đố vui: word → nghĩa | Hiển thị 1 slang word + 4 định nghĩa; chọn đáp án, tô xanh/đỏ và tính điểm. |
-| 10 | Đố vui: nghĩa → word | Hiển thị 1 định nghĩa + 4 slang word; chọn đáp án, tô xanh/đỏ và tính điểm. |
+| 9 | Đố vui: word → nghĩa | Hiển thị 1 slang word + 4 định nghĩa; chọn đáp án, đánh dấu đúng/sai bằng viền và tính điểm. |
+| 10 | Đố vui: nghĩa → word | Hiển thị 1 định nghĩa + 4 slang word; chọn đáp án, đánh dấu đúng/sai bằng viền và tính điểm. |
 
 Ngoài 10 chức năng chính còn có dashboard thống kê, menu bar, sidebar, phím tắt `Ctrl+1 … Ctrl+0`, `Ctrl+H`, `Ctrl+Q`.
 
@@ -78,7 +78,7 @@ java -jar dist\SlangDictionary.jar
 java -jar dist\SlangDictionary.jar --smoke-test
 ```
 
-Mở lần lượt 11 màn hình, chụp ảnh vào `report/screens/` rồi thoát. Đây là smoke-test cho toàn bộ UI.
+Mở lần lượt 11 màn hình, chụp 13 ảnh (thêm 2 trạng thái quiz đã trả lời) vào `report/screens/` rồi thoát. Đây là smoke-test cho toàn bộ UI; ảnh được chuyển sang grayscale.
 
 ## 4. Kiểm thử và hiệu năng
 
@@ -115,6 +115,9 @@ Tất cả đều **dưới 1 giây** cho thao tác tìm kiếm, đáp ứng yê
 | ![Sửa](report/screens/06-edit.png) | ![Xóa](report/screens/07-delete.png) |
 | ![Reset](report/screens/08-reset.png) | ![Random](report/screens/09-random.png) |
 | ![Quiz word](report/screens/10-quiz-word.png) | ![Quiz definition](report/screens/11-quiz-definition.png) |
+| ![Quiz word đã trả lời](report/screens/10b-quiz-word-answered.png) | ![Quiz definition đã trả lời](report/screens/11b-quiz-definition-answered.png) |
+
+Báo cáo đầy đủ: [`report/BAO_CAO_DO_AN.docx`](report/BAO_CAO_DO_AN.docx) và [`report/BAO_CAO_DO_AN.pdf`](report/BAO_CAO_DO_AN.pdf).
 
 ## 6. Cấu trúc thư mục
 
@@ -132,7 +135,7 @@ PA_01_DictionaryApp/
 │  └─ ui/       MainFrame, Theme, Dialogs, components, panels
 ├─ src/main/resources/data/slang.txt   # bản dữ liệu đi kèm jar
 ├─ src/test/java/.../AllTests.java
-├─ report/      ảnh, kết quả test, tự đánh giá, kịch bản video
+├─ report/      báo cáo docx/pdf, ảnh, kết quả test, tự đánh giá, kịch bản video
 └─ data/        sinh ra khi chạy (working file, snapshot, history)
 ```
 
