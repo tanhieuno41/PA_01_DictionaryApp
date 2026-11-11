@@ -448,8 +448,8 @@ def build():
     h1(document, "2. PHÂN TÍCH YÊU CẦU")
     h2(document, "2.1. Yêu cầu chức năng")
     table(document, ["STT", "Chức năng", "Mô tả ngắn"], [
-        ["1", "Tìm theo slang word", "Tra cứu chính xác, không phân biệt hoa thường; hiển thị đầy đủ định nghĩa."],
-        ["2", "Tìm theo definition", "Hiển thị tất cả slang word có định nghĩa chứa chuỗi con; highlight từ khoá."],
+        ["1", "Tìm theo slang word", "Tra cứu chính xác, không phân biệt hoa thường; có gợi ý slang word khi đang nhập."],
+        ["2", "Tìm theo definition", "Hiển thị mọi slang word có định nghĩa chứa chuỗi con; có gợi ý definition khi đang nhập."],
         ["3", "Lịch sử tra cứu", "Lưu từ khoá, loại tra cứu, số kết quả, thời gian; xóa được."],
         ["4", "Thêm slang word", "Kiểm tra trùng; cho chọn ghi đè, thêm bản trùng hoặc hủy."],
         ["5", "Chỉnh sửa", "Chọn đúng mục từ, sửa word/định nghĩa, lưu ngay."],
@@ -611,11 +611,18 @@ query(keyword):
     bullet(document, "Viền liền đậm cho đáp án đúng; viền nét đứt cho đáp án chọn sai.")
     bullet(document, "Chữ mô tả trực tiếp: “Chính xác”, “Chưa đúng”, “Đáp án đúng: …”.")
     bullet(document, "Badge A/B/C/D chuyển đen hoặc xám tùy trạng thái.")
+    para(document, "Hai màn hình tìm kiếm có gợi ý autocomplete riêng: màn hình tìm theo slang word chỉ gợi ý "
+                   "các slang word chứa chuỗi đang nhập; màn hình tìm theo định nghĩa chỉ gợi ý các định nghĩa chứa "
+                   "chuỗi đó. Gợi ý cập nhật sau 180 ms, tối đa 6 dòng; nhấn vào một dòng để tìm ngay.")
     para(document, "Ảnh chụp trong báo cáo được chuyển sang grayscale bằng Java2D trước khi ghi, nên không còn "
                    "pixel lệch kênh màu do ClearType.")
     image(document, "01-home.png", "Hình 5.1. Trang tổng quan với thống kê, từ của ngày và thao tác nhanh")
     image(document, "02-search-word.png", "Hình 5.2. Tra cứu chính xác theo slang word")
+    image(document, "02b-search-word-suggestions.png",
+          "Hình 5.2b. Gợi ý autocomplete khi nhập ':' — chỉ gợi ý slang word")
     image(document, "03-search-definition.png", "Hình 5.3. Tìm theo định nghĩa, highlight từ khoá bằng nền xám")
+    image(document, "03b-search-definition-suggestions.png",
+          "Hình 5.3b. Gợi ý autocomplete khi nhập 'money' — chỉ gợi ý định nghĩa")
     image(document, "04-history.png", "Hình 5.4. Lịch sử tra cứu, mới nhất ở trên cùng")
     image(document, "05-add.png", "Hình 5.5. Form thêm slang word")
     image(document, "06-edit.png", "Hình 5.6. Chỉnh sửa mục từ đã chọn")
@@ -644,19 +651,19 @@ query(keyword):
     bullet(document, "Kiểm thử đơn vị/tích hợp cho parser, tìm kiếm, thêm/sửa/xóa, lưu trữ, reset, lịch sử, quiz.")
     bullet(document, "Đối chiếu tìm kiếm definition với brute-force trên dữ liệu thật.")
     bullet(document, "Đo hiệu năng với 100.000 mục sinh tự động, kiểm tra nạp snapshot không rebuild.")
-    bullet(document, "Smoke test giao diện: mở 11 màn hình, chụp 13 ảnh trạng thái.")
+    bullet(document, "Smoke test giao diện: mở 11 màn hình, chụp 15 ảnh trạng thái.")
     h2(document, "6.2. Kết quả kiểm thử tự động")
     table(document, ["Nhóm", "Nội dung", "Số kiểm tra"], [
         ["1", "Parser, dữ liệu chuẩn, AMA đã gộp", "5"],
-        ["2", "Tìm theo slang word", "7"],
-        ["3", "Tìm theo definition + đối chiếu brute-force", "20"],
+        ["2", "Tìm theo slang word", "9"],
+        ["3", "Tìm theo definition + đối chiếu brute-force", "22"],
         ["4", "Add / overwrite / duplicate / edit / delete", "13"],
         ["5", "Persistence, snapshot, fallback", "10"],
         ["6", "Reset dữ liệu chuẩn", "7"],
         ["7", "History persistence", "10"],
         ["8", "Quiz generation", "2"],
-        ["9", "Hiệu năng 100.000 slang word", "14"],
-        ["", "Tổng", "88/88 đạt"],
+        ["9", "Hiệu năng 100.000 slang word", "16"],
+        ["", "Tổng", "94/94 đạt"],
     ], widths=[1.2, 10.8, 3.4], font_size=10.5)
     para(document, "Kết quả đầy đủ nằm trong report/test-results.txt. Hai cảnh báo fallback snapshot trong "
                    "quá trình test là có chủ đích; test harness đã nuôi im lặng các cảnh báo này để log sạch.")
@@ -675,10 +682,10 @@ query(keyword):
     para(document, "Bộ nhớ sử dụng khi test 100k khoảng 184 MB. Các phép tìm kiếm đều dưới 1 giây, đáp ứng "
                    "yêu cầu của đề.")
     h2(document, "6.4. Kiểm thử giao diện")
-    para(document, "ScreenshotMode mở cửa sổ thật, đi qua 11 màn hình, gọi dữ liệu mẫu BOMB/money, chụp 13 ảnh "
-                   "(11 màn hình + 2 trạng thái quiz đã trả lời) và thoát. Ảnh được chuyển sang grayscale; "
+    para(document, "ScreenshotMode mở cửa sổ thật, đi qua 11 màn hình, gọi dữ liệu mẫu BOMB/money, chụp 15 ảnh "
+                   "(11 màn hình + 2 gợi ý autocomplete + 2 trạng thái quiz đã trả lời) và thoát. Ảnh được chuyển sang grayscale; "
                    "kiểm tra bằng Python/Pillow cho thấy 0 pixel lệch kênh màu.")
-    code_block(document, "SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.")
+    code_block(document, "SMOKE OK: 11 màn hình, 15 ảnh đã mở/chụp thành công.")
     h2(document, "6.5. Các trường hợp biên")
     bullet(document, "Từ khoá rỗng, toàn khoảng trắng, hoa/thường, khoảng trắng đầu cuối.")
     bullet(document, "Từ khoá 1–2 ký tự (fallback quét tuần tự).")
@@ -740,7 +747,7 @@ query(keyword):
 
     h1(document, "PHỤ LỤC B – CHẠY VÀ ĐÓNG GÓI")
     code_block(document, """run.bat          # chạy ứng dụng
-test.bat         # build + chạy 88 kiểm tra + tạo jar
+test.bat         # build + chạy 94 kiểm tra + tạo jar
 powershell -NoProfile -ExecutionPolicy Bypass -File package.ps1 ^
   -Mssv <MSSV> -FullName "<Họ tên>" -ClassName "<Lớp>" ^
   -VideoUrl "https://youtu.be/..." -Score 100""")

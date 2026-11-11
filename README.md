@@ -8,8 +8,8 @@
 
 | # | Chức năng | Cách sử dụng |
 |---|-----------|--------------|
-| 1 | Tìm kiếm theo slang word | Nhập từ khoá, nhấn **Tìm kiếm** hoặc Enter. Không phân biệt hoa thường. |
-| 2 | Tìm kiếm theo definition | Nhập chuỗi con của định nghĩa, kết quả hiển thị tất cả slang word có chứa chuỗi đó, có highlight. |
+| 1 | Tìm kiếm theo slang word | Nhập từ khoá, nhấn **Tìm kiếm** hoặc Enter. Không phân biệt hoa thường; có gợi ý slang word khi đang nhập. |
+| 2 | Tìm kiếm theo definition | Nhập chuỗi con của định nghĩa, kết quả hiển thị tất cả slang word có chứa chuỗi đó, có highlight; gợi ý **definition** khi đang nhập. |
 | 3 | Lịch sử tra cứu | Tự động ghi mỗi lần tra cứu; hiển thị mới nhất trước, có loại tra cứu, số kết quả, thời gian; xóa được. |
 | 4 | Thêm slang word | Nhập word + định nghĩa. Nếu trùng, hộp thoại cho chọn **Ghi đè**, **Thêm bản trùng** hoặc **Hủy**. |
 | 5 | Chỉnh sửa | Tìm từ, chọn đúng mục từ, sửa word/định nghĩa và lưu. |
@@ -81,11 +81,11 @@ java -jar dist\SlangDictionary.jar
 java -jar dist\SlangDictionary.jar --smoke-test
 ```
 
-Mở lần lượt 11 màn hình, chụp 13 ảnh (thêm 2 trạng thái quiz đã trả lời) vào `report/screens/` rồi thoát. Đây là smoke-test cho toàn bộ UI; ảnh được chuyển sang grayscale.
+Mở lần lượt 11 màn hình, chụp 15 ảnh (thêm 2 ảnh gợi ý autocomplete và 2 trạng thái quiz đã trả lời) vào `report/screens/` rồi thoát. Đây là smoke-test cho toàn bộ UI; ảnh được chuyển sang grayscale.
 
 ## 4. Kiểm thử và hiệu năng
 
-Chạy `test.bat` (hoặc `AllTests`) cho kết quả **88/88 kiểm tra đạt**:
+Chạy `test.bat` (hoặc `AllTests`) cho kết quả **94/94 kiểm tra đạt**:
 
 - Parser và dữ liệu chuẩn (7.638 mục / 8.941 định nghĩa; raw 7.656 / 8.959 để đối chiếu, dòng định nghĩa nối tiếp).
 - Tìm theo word: chính xác, không phân biệt hoa thường, trim, gợi ý prefix.
@@ -114,6 +114,7 @@ Tất cả đều **dưới 1 giây** cho thao tác tìm kiếm, đáp ứng yê
 | | |
 |---|---|
 | ![Tìm theo word](report/screens/02-search-word.png) | ![Tìm theo định nghĩa](report/screens/03-search-definition.png) |
+| ![Gợi ý slang word](report/screens/02b-search-word-suggestions.png) | ![Gợi ý định nghĩa](report/screens/03b-search-definition-suggestions.png) |
 | ![Lịch sử](report/screens/04-history.png) | ![Thêm](report/screens/05-add.png) |
 | ![Sửa](report/screens/06-edit.png) | ![Xóa](report/screens/07-delete.png) |
 | ![Reset](report/screens/08-reset.png) | ![Random](report/screens/09-random.png) |

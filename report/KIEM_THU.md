@@ -21,7 +21,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File build.ps1
 java -cp "build/classes;build/test-classes" vn.edu.hcmus.slang.AllTests
 ```
 
-Kiểm thử giao diện (mở 11 màn hình, chụp 13 ảnh trạng thái):
+Kiểm thử giao diện (mở 11 màn hình, chụp 15 ảnh trạng thái):
 
 ```bat
 java -jar dist\SlangDictionary.jar --smoke-test
@@ -31,20 +31,20 @@ Kết quả đầy đủ: [`test-results.txt`](test-results.txt).
 
 ## 3. Tổng hợp
 
-**88/88 kiểm tra đạt.** Các test cố tình làm hỏng / làm cũ snapshot để kiểm tra
+**94/94 kiểm tra đạt.** Các test cố tình làm hỏng / làm cũ snapshot để kiểm tra
 cơ chế fallback rebuild; cảnh báo của `DictionaryStore` được test harness nuôi im lặng.
 
 | Nhóm | Nội dung | Kết quả |
 |------|----------|---------|
 | 1 | Parser, dữ liệu chuẩn, AMA đã gộp | 5/5 |
-| 2 | Tìm theo slang word | 7/7 |
-| 3 | Tìm theo definition + đối chiếu brute-force | 20/20 |
+| 2 | Tìm theo slang word | 9/9 |
+| 3 | Tìm theo definition + đối chiếu brute-force | 22/22 |
 | 4 | Add / overwrite / duplicate / edit / delete | 13/13 |
 | 5 | Persistence, snapshot, fallback | 10/10 |
 | 6 | Reset dữ liệu chuẩn | 7/7 |
 | 7 | History persistence | 10/10 |
 | 8 | Quiz generation | 2/2 |
-| 9 | Hiệu năng 100.000 slang word | 14/14 |
+| 9 | Hiệu năng 100.000 slang word | 16/16 |
 
 ## 4. Đối chiếu yêu cầu đồ án
 
@@ -98,14 +98,14 @@ Dữ liệu test được sinh bằng cách nhân bản dữ liệu chuẩn vớ
 ## 6. Kiểm thử giao diện
 
 `ScreenshotMode` mở cửa sổ thật, đi qua 11 màn hình, gọi dữ liệu mẫu (BOMB / money),
-chụp 13 ảnh bằng Java2D và thoát. Ảnh được chuyển sang grayscale; kiểm tra bằng
+chụp 15 ảnh bằng Java2D và thoát. Ảnh được chuyển sang grayscale; kiểm tra bằng
 Python/Pillow cho thấy **0 pixel lệch kênh màu**. Kết quả:
 
 ```
-SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.
+SMOKE OK: 11 màn hình, 15 ảnh đã mở/chụp thành công.
 ```
 
-Ảnh: `report/screens/01-home.png` … `11b-quiz-definition-answered.png`.
+Ảnh: `report/screens/01-home.png` … `11b-quiz-definition-answered.png`, thêm `02b-search-word-suggestions.png` và `03b-search-definition-suggestions.png`.
 
 ## 7. Các trường hợp biên đã kiểm tra
 

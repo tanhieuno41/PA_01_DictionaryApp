@@ -67,7 +67,7 @@ Nói ngắn gọn:
 ## 5:20 – 6:00 · Hiệu năng + kết thúc
 
 - Mở terminal, chạy `test.bat` hoặc chiếu `report/test-results.txt`.
-- Nói: “88/88 test đạt; với 100.000 slang word, xây chỉ mục ~310ms, tìm kiếm 0–20ms,
+- Nói: “94/94 test đạt; với 100.000 slang word, xây chỉ mục ~310ms, tìm kiếm 0–20ms,
   nạp snapshot ~508ms, đều dưới 1 giây.”
 - “Source code, jar, dữ liệu, ảnh chụp và file tự đánh giá nằm trong file zip nộp bài.
   Cảm ơn thầy/cô đã xem.”

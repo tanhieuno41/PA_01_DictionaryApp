@@ -70,8 +70,8 @@ Ghi chú về commit:
 ======================================================================
 KẾT QUẢ KIỂM THỬ
 ======================================================================
-- 88/88 kiểm tra đạt (xem report/test-results.txt).
-- 11 màn hình, 13 ảnh mở/chụp thành công (xem report/screens); ảnh grayscale, 0 pixel màu.
+- 94/94 kiểm tra đạt (xem report/test-results.txt).
+- 11 màn hình, 15 ảnh mở/chụp thành công (xem report/screens); ảnh grayscale, 0 pixel màu.
 - Benchmark 100.000 slang word:
     + xây chỉ mục: ~300 ms
     + tra cứu chính xác: < 1 ms cho 200 lần
