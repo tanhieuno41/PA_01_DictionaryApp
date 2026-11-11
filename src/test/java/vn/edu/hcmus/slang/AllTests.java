@@ -2,6 +2,7 @@ package vn.edu.hcmus.slang;
 
 import vn.edu.hcmus.slang.data.DictionaryStore;
 import vn.edu.hcmus.slang.data.SlangDictionary;
+import vn.edu.hcmus.slang.model.DefinitionSuggestion;
 import vn.edu.hcmus.slang.model.HistoryEntry;
 import vn.edu.hcmus.slang.model.QuizQuestion;
 import vn.edu.hcmus.slang.model.Slang;
@@ -107,6 +108,12 @@ public final class AllTests {
                 fullDictionary.searchByWord("zzzz-not-a-word").isEmpty());
         check("gợi ý theo prefix", fullDictionary.suggestWords("bom", 5).stream()
                 .anyMatch(word -> word.equalsIgnoreCase("bomb")));
+        List<Slang> wordSuggestions = fullDictionary.suggestEntries("BOM", 6);
+        check("gợi ý word chứa BOM", wordSuggestions.stream()
+                .anyMatch(slang -> slang.getWord().equalsIgnoreCase("BOMB")));
+        List<Slang> colonSuggestions = fullDictionary.suggestEntries(":", 8);
+        check("gợi ý \":\" chỉ trả slang word có \":\"", !colonSuggestions.isEmpty()
+                && colonSuggestions.stream().allMatch(slang -> slang.getWord().contains(":")));
         check("tra cứu từ khoá rỗng trả về rỗng", fullDictionary.searchByWord("   ").isEmpty());
     }
 
@@ -128,6 +135,14 @@ public final class AllTests {
         }
         check("không tìm thấy định nghĩa trả về list rỗng",
                 fullDictionary.searchByDefinition("qqqqzzzz").isEmpty());
+        List<DefinitionSuggestion> definitionSuggestions = fullDictionary.suggestDefinitions("money", 6);
+        check("gợi ý definition chứa money", !definitionSuggestions.isEmpty()
+                && definitionSuggestions.stream().allMatch(item ->
+                TextNormalizer.normalizeSearchText(item.definition()).contains("money")));
+        List<DefinitionSuggestion> colonDefinitions = fullDictionary.suggestDefinitions(":", 6);
+        check("gợi ý \":\" chỉ trả definition có \":\"", !colonDefinitions.isEmpty()
+                && colonDefinitions.stream().allMatch(item ->
+                TextNormalizer.normalizeSearchText(item.definition()).contains(":")));
     }
 
     private static void testMutations() {
@@ -338,6 +353,21 @@ public final class AllTests {
             check("100k: definition search '" + keyword + "' < 1s",
                     searchMillis < 1000, searchMillis + " ms");
         }
+
+        start = System.nanoTime();
+        List<Slang> wordSuggestions = dictionary.suggestEntries("slang", 6);
+        long wordSuggestionMillis = millis(start);
+        System.out.println("    suggest word = " + wordSuggestions.size() + " / "
+                + wordSuggestionMillis + " ms");
+        check("100k: gợi ý word < 1s", wordSuggestionMillis < 1000, wordSuggestionMillis + " ms");
+
+        start = System.nanoTime();
+        List<DefinitionSuggestion> definitionSuggestions = dictionary.suggestDefinitions("money", 6);
+        long definitionSuggestionMillis = millis(start);
+        System.out.println("    suggest definition = " + definitionSuggestions.size() + " / "
+                + definitionSuggestionMillis + " ms");
+        check("100k: gợi ý definition < 1s", definitionSuggestionMillis < 1000,
+                definitionSuggestionMillis + " ms");
 
         Path dir = TEMP_ROOT.resolve("perf-100k");
         Files.createDirectories(dir);

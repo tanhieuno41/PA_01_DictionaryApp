@@ -13,12 +13,16 @@ import vn.edu.hcmus.slang.ui.component.FlatButton;
 import vn.edu.hcmus.slang.ui.component.RoundedPanel;
 import vn.edu.hcmus.slang.ui.component.RoundedTextField;
 import vn.edu.hcmus.slang.ui.component.SlangTableModel;
+import vn.edu.hcmus.slang.ui.component.SuggestionPanel;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.border.EmptyBorder;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -27,6 +31,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Chức năng 1: tìm kiếm chính xác theo slang word. */
@@ -42,12 +47,31 @@ public final class SearchWordPanel extends JPanel implements Refreshable, DemoSc
             "Nhập một slang word và nhấn Tìm kiếm. Kết quả hiển thị đầy đủ các định nghĩa.");
     private final CardLayout resultCards = new CardLayout();
     private final JPanel resultBody = new JPanel(resultCards);
+    private final SuggestionPanel suggestions = new SuggestionPanel("Gợi ý slang word");
+    private final Timer suggestionTimer = new Timer(180, e -> refreshSuggestions());
     private String lastKeyword;
 
     public SearchWordPanel(AppHost host) {
         super(new BorderLayout());
         this.host = host;
         setBackground(Theme.BG);
+        suggestionTimer.setRepeats(false);
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+        });
         add(Ui.page("Tra cứu slang word", "Chức năng 1 · Tìm chính xác theo từ khoá, không phân biệt hoa thường",
                 buildBody()), BorderLayout.CENTER);
     }
@@ -57,12 +81,13 @@ public final class SearchWordPanel extends JPanel implements Refreshable, DemoSc
         body.setOpaque(false);
 
         RoundedPanel searchCard = Ui.card(14);
-        searchCard.setLayout(new BorderLayout(10, 0));
+        searchCard.setLayout(new BorderLayout(10, 8));
         FlatButton button = new FlatButton("Tìm kiếm", FlatButton.Variant.PRIMARY);
         button.addActionListener(e -> runSearch(field.getText(), true));
         field.addActionListener(e -> runSearch(field.getText(), true));
         searchCard.add(field, BorderLayout.CENTER);
         searchCard.add(button, BorderLayout.EAST);
+        searchCard.add(suggestions, BorderLayout.SOUTH);
 
         RoundedPanel resultCard = Ui.card(16);
         resultCard.setLayout(new BorderLayout(0, 12));
@@ -100,6 +125,8 @@ public final class SearchWordPanel extends JPanel implements Refreshable, DemoSc
     }
 
     private void runSearch(String keyword, boolean recordHistory) {
+        suggestions.clear();
+        suggestionTimer.stop();
         String query = keyword == null ? "" : keyword.trim();
         if (query.isEmpty()) {
             resultLabel.setText("Vui lòng nhập slang word");
@@ -133,6 +160,35 @@ public final class SearchWordPanel extends JPanel implements Refreshable, DemoSc
         }
     }
 
+    private void scheduleSuggestions() {
+        suggestionTimer.restart();
+    }
+
+    private void refreshSuggestions() {
+        String query = field.getText().trim();
+        if (query.isEmpty()) {
+            suggestions.clear();
+            return;
+        }
+        List<Slang> matches = host.dictionary().suggestEntries(query, 6);
+        List<SuggestionPanel.Item> items = new ArrayList<>();
+        for (Slang slang : matches) {
+            items.add(new SuggestionPanel.Item(
+                    slang.getWord(),
+                    "→ " + Dialogs.shorten(slang.getJoinedDefinitions(), 115),
+                    true,
+                    () -> chooseSuggestion(slang.getWord())));
+        }
+        suggestions.setItems("Gợi ý slang word", items);
+    }
+
+    private void chooseSuggestion(String word) {
+        suggestionTimer.stop();
+        field.setText(word);
+        suggestions.clear();
+        runSearch(word, true);
+    }
+
     @Override
     public void onShown() {
         field.requestFocusInWindow();
@@ -152,5 +208,12 @@ public final class SearchWordPanel extends JPanel implements Refreshable, DemoSc
     public void prepareDemo() {
         field.setText("BOMB");
         runSearch("BOMB", true);
+    }
+
+    /** Dùng cho ảnh chụp: chỉ hiện gợi ý, chưa chạy tìm kiếm. */
+    public void prepareSuggestionDemo() {
+        field.setText(":");
+        suggestionTimer.stop();
+        refreshSuggestions();
     }
 }

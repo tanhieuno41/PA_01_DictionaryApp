@@ -1,17 +1,21 @@
 package vn.edu.hcmus.slang.data;
 
+import vn.edu.hcmus.slang.model.DefinitionSuggestion;
 import vn.edu.hcmus.slang.model.Slang;
 import vn.edu.hcmus.slang.util.TextNormalizer;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Từ điển slang trong bộ nhớ.
@@ -114,6 +118,82 @@ public final class SlangDictionary {
                 })
                 .limit(Math.max(1, limit))
                 .toList();
+    }
+
+    /**
+     * Gợi ý slang word có chứa chuỗi người dùng đang nhập. Dùng cho
+     * autocomplete ở chức năng tìm theo slang word; chỉ trả về word, không
+     * trộn với gợi ý định nghĩa.
+     */
+    public synchronized List<Slang> suggestEntries(String keyword, int limit) {
+        String query = TextNormalizer.normalizeWord(keyword);
+        if (query.isEmpty() || limit <= 0) {
+            return List.of();
+        }
+        ensureWordIndex();
+        List<Map.Entry<String, List<Slang>>> matches = new ArrayList<>();
+        for (Map.Entry<String, List<Slang>> entry : byWord.entrySet()) {
+            if (entry.getKey().contains(query)) {
+                matches.add(entry);
+            }
+        }
+        matches.sort(Comparator
+                .comparingInt((Map.Entry<String, List<Slang>> entry) -> entry.getKey().indexOf(query))
+                .thenComparingInt(entry -> entry.getKey().length())
+                .thenComparing(Map.Entry::getKey));
+        List<Slang> result = new ArrayList<>();
+        for (Map.Entry<String, List<Slang>> match : matches) {
+            for (Slang slang : match.getValue()) {
+                result.add(slang);
+                if (result.size() >= limit) {
+                    return result;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Gợi ý các định nghĩa có chứa chuỗi người dùng đang nhập. Chỉ trả về
+     * definition (kèm word hiển thị), không trộn với danh sách slang word.
+     */
+    public synchronized List<DefinitionSuggestion> suggestDefinitions(String keyword, int limit) {
+        String query = TextNormalizer.normalizeSearchText(keyword);
+        if (query.isEmpty() || limit <= 0) {
+            return List.of();
+        }
+        ensureAllIndexes();
+        List<Slang> candidates = definitionIndex.search(query, ordered);
+        List<DefinitionSuggestion> suggestions = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
+        int collectLimit = Math.max(40, limit * 20);
+        for (Slang entry : candidates) {
+            for (String definition : entry.getDefinitions()) {
+                String normalized = TextNormalizer.normalizeSearchText(definition);
+                if (!normalized.contains(query)) {
+                    continue;
+                }
+                String signature = entry.getNormalizedWord() + "\u0000" + normalized;
+                if (seen.add(signature)) {
+                    suggestions.add(new DefinitionSuggestion(entry.getWord(), definition));
+                    if (suggestions.size() >= collectLimit) {
+                        break;
+                    }
+                }
+            }
+            if (suggestions.size() >= collectLimit) {
+                break;
+            }
+        }
+        suggestions.sort(Comparator
+                .comparingInt((DefinitionSuggestion item) ->
+                        TextNormalizer.normalizeSearchText(item.definition()).indexOf(query))
+                .thenComparingInt(item -> item.definition().length())
+                .thenComparing(DefinitionSuggestion::word));
+        if (suggestions.size() > limit) {
+            return new ArrayList<>(suggestions.subList(0, limit));
+        }
+        return suggestions;
     }
 
     /** Tìm tất cả mục từ có định nghĩa chứa keyword. */

@@ -358,6 +358,16 @@ public final class MainFrame extends JFrame implements AppHost {
         }
     }
 
+    /** Hiện gợi ý autocomplete cho ảnh chụp (không chạy tìm kiếm). */
+    public void prepareSuggestionDemo() {
+        JPanel panel = screens.get(currentKey);
+        if (panel instanceof SearchWordPanel search) {
+            search.prepareSuggestionDemo();
+        } else if (panel instanceof DefinitionSearchPanel definition) {
+            definition.prepareSuggestionDemo();
+        }
+    }
+
     @Override
     public SlangDictionary dictionary() {
         return boot.dictionary();

@@ -1,5 +1,6 @@
 package vn.edu.hcmus.slang.ui.panel;
 
+import vn.edu.hcmus.slang.model.DefinitionSuggestion;
 import vn.edu.hcmus.slang.model.HistoryEntry;
 import vn.edu.hcmus.slang.model.Slang;
 import vn.edu.hcmus.slang.ui.AppHost;
@@ -13,12 +14,16 @@ import vn.edu.hcmus.slang.ui.component.FlatButton;
 import vn.edu.hcmus.slang.ui.component.RoundedPanel;
 import vn.edu.hcmus.slang.ui.component.RoundedTextField;
 import vn.edu.hcmus.slang.ui.component.SlangTableModel;
+import vn.edu.hcmus.slang.ui.component.SuggestionPanel;
 import vn.edu.hcmus.slang.util.Snippet;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -27,6 +32,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Chức năng 2: tìm các slang word có định nghĩa chứa keyword. */
@@ -42,12 +48,31 @@ public final class DefinitionSearchPanel extends JPanel implements Refreshable, 
             "Nhập một chuỗi con của định nghĩa. Ứng dụng dùng chỉ mục trigram nên vẫn nhanh với 100.000 slang word.");
     private final CardLayout resultCards = new CardLayout();
     private final JPanel resultBody = new JPanel(resultCards);
+    private final SuggestionPanel suggestions = new SuggestionPanel("Gợi ý định nghĩa");
+    private final Timer suggestionTimer = new Timer(180, e -> refreshSuggestions());
     private String lastKeyword;
 
     public DefinitionSearchPanel(AppHost host) {
         super(new BorderLayout());
         this.host = host;
         setBackground(Theme.BG);
+        suggestionTimer.setRepeats(false);
+        field.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                scheduleSuggestions();
+            }
+        });
         add(Ui.page("Tìm theo định nghĩa",
                 "Chức năng 2 · Liệt kê tất cả slang word có định nghĩa chứa từ khoá (tìm chuỗi con)",
                 buildBody()), BorderLayout.CENTER);
@@ -58,12 +83,13 @@ public final class DefinitionSearchPanel extends JPanel implements Refreshable, 
         body.setOpaque(false);
 
         RoundedPanel searchCard = Ui.card(14);
-        searchCard.setLayout(new BorderLayout(10, 0));
+        searchCard.setLayout(new BorderLayout(10, 8));
         FlatButton button = new FlatButton("Tìm kiếm", FlatButton.Variant.PRIMARY);
         button.addActionListener(e -> runSearch(field.getText(), true));
         field.addActionListener(e -> runSearch(field.getText(), true));
         searchCard.add(field, BorderLayout.CENTER);
         searchCard.add(button, BorderLayout.EAST);
+        searchCard.add(suggestions, BorderLayout.SOUTH);
 
         RoundedPanel resultCard = Ui.card(16);
         resultCard.setLayout(new BorderLayout(0, 12));
@@ -103,6 +129,8 @@ public final class DefinitionSearchPanel extends JPanel implements Refreshable, 
     }
 
     private void runSearch(String keyword, boolean recordHistory) {
+        suggestions.clear();
+        suggestionTimer.stop();
         String query = keyword == null ? "" : keyword.trim();
         if (query.isEmpty()) {
             resultLabel.setText("Vui lòng nhập từ khoá");
@@ -147,10 +175,46 @@ public final class DefinitionSearchPanel extends JPanel implements Refreshable, 
         }
     }
 
+    private void scheduleSuggestions() {
+        suggestionTimer.restart();
+    }
+
+    private void refreshSuggestions() {
+        String query = field.getText().trim();
+        if (query.isEmpty()) {
+            suggestions.clear();
+            return;
+        }
+        List<DefinitionSuggestion> matches = host.dictionary().suggestDefinitions(query, 6);
+        List<SuggestionPanel.Item> items = new ArrayList<>();
+        for (DefinitionSuggestion match : matches) {
+            items.add(new SuggestionPanel.Item(
+                    Dialogs.shorten(match.definition(), 130),
+                    "→ " + match.word(),
+                    false,
+                    () -> chooseSuggestion(match.definition())));
+        }
+        suggestions.setItems("Gợi ý định nghĩa", items);
+    }
+
+    private void chooseSuggestion(String definition) {
+        suggestionTimer.stop();
+        field.setText(definition);
+        suggestions.clear();
+        runSearch(definition, true);
+    }
+
     @Override
     public void prepareDemo() {
         field.setText("money");
         runSearch("money", true);
+    }
+
+    /** Dùng cho ảnh chụp: chỉ hiện gợi ý định nghĩa, chưa chạy tìm kiếm. */
+    public void prepareSuggestionDemo() {
+        field.setText("money");
+        suggestionTimer.stop();
+        refreshSuggestions();
     }
 
     /** Renderer highlight từ khoá trong đoạn trích. */

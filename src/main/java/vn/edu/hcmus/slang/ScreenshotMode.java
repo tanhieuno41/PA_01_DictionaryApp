@@ -68,6 +68,29 @@ public final class ScreenshotMode {
                 System.out.println("[Screenshot] " + file);
             }
 
+            // Ảnh bổ sung: gợi ý autocomplete (word ở panel 1, definition ở panel 2).
+            SwingUtilities.invokeAndWait(() -> {
+                frame.showPanel(MainFrame.SEARCH);
+                frame.prepareSuggestionDemo();
+                frame.validate();
+                frame.repaint();
+            });
+            Thread.sleep(300);
+            Path wordSuggestions = output.resolve("02b-search-word-suggestions.png");
+            SwingUtilities.invokeAndWait(() -> capture(frame, wordSuggestions));
+            System.out.println("[Screenshot] " + wordSuggestions);
+
+            SwingUtilities.invokeAndWait(() -> {
+                frame.showPanel(MainFrame.DEFINITION);
+                frame.prepareSuggestionDemo();
+                frame.validate();
+                frame.repaint();
+            });
+            Thread.sleep(300);
+            Path definitionSuggestions = output.resolve("03b-search-definition-suggestions.png");
+            SwingUtilities.invokeAndWait(() -> capture(frame, definitionSuggestions));
+            System.out.println("[Screenshot] " + definitionSuggestions);
+
             // Ảnh bổ sung: trạng thái đã trả lời sai (đáp án đúng viền đậm,
             // đáp án chọn sai viền nét đứt) — không dùng màu.
             SwingUtilities.invokeAndWait(() -> {
@@ -95,7 +118,7 @@ public final class ScreenshotMode {
             System.out.println("[Screenshot] " + answeredDefinition);
 
             SwingUtilities.invokeAndWait(frame::dispose);
-            System.out.println("SMOKE OK: 11 màn hình, 13 ảnh đã mở/chụp thành công.");
+            System.out.println("SMOKE OK: 11 màn hình, 15 ảnh đã mở/chụp thành công.");
             System.exit(0);
         } catch (Throwable ex) {
             ex.printStackTrace();
