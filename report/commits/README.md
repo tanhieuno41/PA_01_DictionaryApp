@@ -3,7 +3,8 @@
 Đề bài yêu cầu nộp kèm **hình chụp các lần commit** và repo phải có ít nhất 10 commit
 trải đều trong các ngày.
 
-Repo local của project đã có lịch sử commit thực tế (xem `report/git-log.txt`).
+Repo local của project đã có lịch sử commit thực tế (xem `report/git-log.txt` và
+`report/commits/local-git-log.png`). Ảnh local chỉ là minh chứng tạm.
 Trước khi nộp:
 
 1. Tạo repo GitHub/Bitbucket/GitLab và push toàn bộ commit.

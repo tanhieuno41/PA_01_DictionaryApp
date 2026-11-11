@@ -145,7 +145,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File package.ps1 `
 
 Script build lại jar, kiểm tra test, rồi tạo file `22123456_100.zip` đúng quy ước `MSSV_SoDiemTuDanhGia.zip`, gồm source, jar, dữ liệu, ảnh chụp màn hình, kết quả test, file tự đánh giá và kịch bản video.
 
-> **Lưu ý commit:** repo cần có tối thiểu 10 commit và ảnh chụp các lần commit trên GitHub/Bitbucket/GitLab. Hãy push repo và chụp lại lịch sử commit trước khi nộp; các commit trong quá trình phát triển được tạo theo từng bước chức năng (xem `report/git-log.txt`).
+> **Lưu ý commit:** repo cần có tối thiểu 10 commit và ảnh chụp các lần commit trên GitHub/Bitbucket/GitLab. Hãy push repo và chụp lại lịch sử commit trước khi nộp. Ảnh lịch sử local có sẵn tại `report/commits/local-git-log.png` (chỉ là minh chứng tạm, cần thay bằng ảnh GitHub).
 
 ## 8. Tham khảo
 

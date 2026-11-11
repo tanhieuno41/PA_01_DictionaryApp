@@ -1,0 +1,15 @@
+﻿* b41add8 2026-11-11 11:06 test: add latest test results and UI smoke evidence
+* 0c762f0 2026-11-11 11:06 docs: add UI screenshots for all eleven screens
+* 2ad0560 2026-11-11 11:06 docs: add README, self-assessment, test plan and video script
+* 2fbccc2 2026-11-11 11:06 data: add original slang word dataset
+* ebdeed8 2026-11-11 11:06 build: make jar packaging robust and add submission script
+* 73bc397 2026-11-11 11:06 fix: match definitions per entry and harden snapshot recovery
+* 6f00cd1 2026-11-11 11:06 test: add automated suite and 100000-word benchmark
+* a770bab 2026-11-11 11:05 feat: add app bootstrap, splash screen and UI smoke test
+* 9d29f39 2026-11-11 11:05 feat: add main window, navigation and ten functional screens
+* 1425100 2026-11-11 11:05 feat: add Swing theme and reusable UI components
+* c878484 2026-11-11 10:29 fix: track data package and bundled slang.txt
+* 2ea2765 2026-11-11 10:29 feat: add history and quiz services
+* e92ea39 2026-11-11 10:29 feat: add trigram index, dictionary and binary persistence
+* f9ec002 2026-11-11 10:29 feat: add slang, history and quiz domain models
+* 9252618 2026-11-11 10:29 chore: initialize Java Swing project and build scripts

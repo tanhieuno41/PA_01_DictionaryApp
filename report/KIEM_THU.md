@@ -56,7 +56,7 @@ cơ chế fallback rebuild.
 | Load dữ liệu, tìm nhanh < 1s với 100k | HashMap O(1) + trigram inverted index | test nhóm 9; bảng hiệu năng bên dưới |
 | Lưu cấu trúc đã index, lần sau không index lại | `data/dictionary.bin` + fingerprint CRC32/kích thước/tên nguồn | test nhóm 5; log `indexLoaded=true` |
 | Lưu danh sách sau add/edit/delete | `data/slang_modified.txt` + snapshot được ghi sau mỗi thao tác | test nhóm 4, 5 |
-| Dùng Git ≥ 10 commit | Repo có lịch sử commit thực tế theo từng bước phát triển | `git-log.txt`; **cần push và chụp ảnh GitHub** |
+| Dùng Git ≥ 10 commit | Repo có lịch sử commit thực tế theo từng bước phát triển | `report/commits/local-git-log.png`, `git-log.txt`; **cần push và chụp ảnh GitHub** |
 | Đặt tên bài nộp đúng | `package.ps1` tạo `MSSV_100.zip` | xem README |
 
 ### 10 chức năng
