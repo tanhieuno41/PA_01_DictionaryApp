@@ -1,0 +1,9 @@
+* text=auto
+*.java text
+*.md text
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.png binary
+*.jar binary
+slang.txt -text
+src/main/resources/data/slang.txt -text
